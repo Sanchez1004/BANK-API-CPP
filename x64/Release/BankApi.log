@@ -1,0 +1,10 @@
+﻿  inversionista.cpp
+D:\Code\Daniel\C++\PROYECTS\BankApi\src\model\proyecto.h(12,16): error C3646: 'inversionista': unknown override specifier
+D:\Code\Daniel\C++\PROYECTS\BankApi\src\model\proyecto.h(12,29): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+D:\Code\Daniel\C++\PROYECTS\BankApi\src\model\proyecto.h(42,24): error C2061: syntax error: identifier 'Inversionista'
+D:\Code\Daniel\C++\PROYECTS\BankApi\src\model\inversionista.cpp(83,17): error C2660: 'Proyecto::agregarInversion': function does not take 2 arguments
+D:\Code\Daniel\C++\PROYECTS\BankApi\src\model\proyecto.h(42,7): message : see declaration of 'Proyecto::agregarInversion'
+D:\Code\Daniel\C++\PROYECTS\BankApi\src\model\inversionista.cpp(83,17): message : while trying to match the argument list '(Inversionista *, double)'
+  proyecto.cpp
+D:\Code\Daniel\C++\PROYECTS\BankApi\src\model\proyecto.cpp(5,114): error C2512: 'Inversionista': no appropriate default constructor available
+D:\Code\Daniel\C++\PROYECTS\BankApi\src\model\inversionista.h(9,7): message : see declaration of 'Inversionista'
