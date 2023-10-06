@@ -9,7 +9,6 @@
 class Proyecto {
 private:
 	DBConnection* dbConn;
-	Inversionista* inversionista;
 	std::string nombre;
 	double cantidadARecaudar;
 	double cantidadRecaudada;

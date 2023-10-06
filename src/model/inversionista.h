@@ -4,7 +4,6 @@
 
 #include <string>
 #include "db/dbconnection.h"
-#include "proyecto.h"
 
 class Inversionista {
 private:
@@ -15,7 +14,7 @@ private:
 	double inversionMax;
 
 public:
-	Inversionista(const std::string& nombre, const std::string& tipo, double ingresoMensual, DBConnection* dbConn);
+	Inversionista(const std::string& nombre, const std::string& tipo, DBConnection* dbConn);
 
 	// Getters
 	std::string getNombre() const;
@@ -37,8 +36,9 @@ public:
 	int getId(const std::string& nombre);
 
 	// Investment Operations
-	void consultarEstadoInversiones();
+	double getInversionTotal();
 	std::string realizarInversion(std::string qNombre, double cantidad);
+	void consultarEstadoInversiones(const std::string& nombreInversionista);
 };
 
-#endif INVERSIONISTA_H
+#endif //INVERSIONISTA_H

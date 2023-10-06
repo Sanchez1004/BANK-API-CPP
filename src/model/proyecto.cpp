@@ -1,5 +1,5 @@
-// Proyecto.cpp
-#include "proyecto.h"
+#include "Proyecto.h"
+#include "inversionista.h"
 
 Proyecto::Proyecto(const std::string& nombre, double cantidadARecaudar, DBConnection* dbConn)
     : nombre(nombre), cantidadARecaudar(cantidadARecaudar), dbConn(dbConn), cantidadRecaudada(0.0), estado(true) {}
@@ -16,7 +16,7 @@ void Proyecto::setCantidadARecaudar(double cantidadARecaudar) { this->cantidadAR
 void Proyecto::setCantidadRecaudada(double cantidadRecaudada) { this->cantidadRecaudada = cantidadRecaudada; }
 void Proyecto::setEstado(bool estado) { this->estado = estado; }
 
-// Database Operations
+// Database operations
 void Proyecto::create() {
     std::string query = "INSERT INTO proyectos(nombre, cantidadARecaudar, cantidadRecaudada, estado) VALUES ('" +
         getNombre() + "', " +
@@ -66,6 +66,7 @@ int Proyecto::getId(const std::string& qNombre) {
     }
 }
 
+
 // Investment operations
 void Proyecto::agregarInversion(Inversionista* inversionista, double cantidad) {
     if (!getEstado()) {
@@ -80,16 +81,30 @@ void Proyecto::agregarInversion(Inversionista* inversionista, double cantidad) {
         throw std::runtime_error("La inversión excede el límite de inversión permitido para el inversionista.");
     }
 
-    std::string query = "INSERT INTO inversiones(idInversionista, idProyecto, inversion) VALUES (" +
+    std::string query = "INSERT INTO inversiones(nombreInversionistaID, nombreProyectoID, cantidad) VALUES (" +
         std::to_string(inversionista->getId(inversionista->getNombre())) + ", " +
         std::to_string(getId(getNombre())) + ", " +
         std::to_string(cantidad) + ")";
 
     dbConn->ejecutarActualizacion(query);
-
     setCantidadRecaudada(getCantidadRecaudada() + cantidad);
 }
 
-void Proyecto::eliminarInversion(const std::string& nombreInversionista, const std::string& nombreProyecto) {
 
+void Proyecto::eliminarInversion(const std::string& nombreInversionista, const std::string& nombreProyecto) {
+    sql::Statement* stmt = dbConn->getConnection()->createStatement();
+    sql::ResultSet* res = stmt->executeQuery("SELECT cantidad FROM inversiones WHERE nombreInversionistaID = " + std::to_string(inversionista->getId(nombreInversionista)) + " AND nombreProyectoID = " + std::to_string(getId(nombreProyecto)));
+
+    double cantidad = 0.0;
+    if (res->next()) {
+        cantidad = res->getDouble("cantidad");
+    }
+
+    std::string query = "DELETE FROM inversiones WHERE nombreInversionistaID = " + std::to_string(inversionista->getId(nombreInversionista)) + " AND nombreProyectoID = " + std::to_string(getId(nombreProyecto));
+    dbConn->ejecutarActualizacion(query);
+
+    setCantidadRecaudada(getCantidadRecaudada() - cantidad);
+    if (getCantidadRecaudada() < getCantidadARecaudar()) {
+        setEstado(true);
+    }
 }

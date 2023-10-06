@@ -1,13 +1,15 @@
-// Inversionista.cpp
 #include "inversionista.h"
+#include "proyecto.h"
 
-Inversionista::Inversionista(const std::string& nombre, const std::string& tipo, double ingresoMensual, DBConnection* dbConn)
-    : nombre(nombre), tipo(tipo), ingresoMensual(ingresoMensual), dbConn(dbConn) {
+Inversionista::Inversionista(const std::string& nombre, const std::string& tipo, DBConnection* dbConn)
+    : nombre(nombre), tipo(tipo), dbConn(dbConn) {
     if (tipo == "basic") {
-        inversionMax = ((4000000 * 20) / 100);
+        setIngresoMensual(4000000);
+        inversionMax = ((getIngresoMensual() * 20) / 100);
     }
     else if (tipo == "full") {
-        inversionMax = ((8500000 * 25) / 100);
+        setIngresoMensual(8500000);
+        inversionMax = ((getIngresoMensual() * 20) / 100);
     }
 }
 
@@ -87,4 +89,35 @@ std::string Inversionista::realizarInversion(std::string nombreProyecto, double 
     }
 
     return "Inversión realizada con éxito.";
+}
+
+void Inversionista::consultarEstadoInversiones(const std::string& nombreInversionista) {
+    int idInversionista = getId(nombreInversionista);
+
+    std::string query = "SELECT * FROM inversiones WHERE nombreInversionistaID = " + std::to_string(idInversionista);
+    sql::Statement* stmt = dbConn->getConnection()->createStatement();
+    sql::ResultSet* res = stmt->executeQuery(query);
+
+    while (res->next()) {
+        std::cout << "Inversión en el proyecto " << res->getString("nombreProyectoID")
+            << " de cantidad " << res->getDouble("cantidad") << std::endl;
+    }
+
+    double inversionTotal = getInversionTotal();
+    std::cout << "La inversión total realizada por el inversionista " << nombreInversionista
+        << " es de " << inversionTotal << std::endl;
+}
+
+double Inversionista::getInversionTotal() {
+    std::string query = "SELECT SUM(cantidad) as total FROM inversiones WHERE nombreInversionistaID = " + std::to_string(getId(getNombre()));
+
+    sql::Statement* stmt = dbConn->getConnection()->createStatement();
+    sql::ResultSet* res = stmt->executeQuery(query);
+
+    if (res->next()) {
+        return res->getDouble("total");
+    }
+    else {
+        return 0.0;
+    }
 }
