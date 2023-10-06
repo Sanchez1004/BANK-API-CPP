@@ -1,7 +1,355 @@
 ﻿  BankApi.cpp
-  Generating code
-  1 of 380 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
-  Finished generating code
-  BankApi.vcxproj -> D:\Code\Daniel\C++\PROJECTS\BankApi\x64\Release\BankApi.exe
+D:\Code\Daniel\C++\PROJECTS\BankApi\BankApi.cpp(5,10): fatal  error C1083: Cannot open include file: 'controller/proyectoController.h': No such file or directory
+  inversionistaController.cpp
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,30): error C2665: 'web::json::value::at': no overloaded function could convert all the argument types
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(657,36): message : could be 'const web::json::value &web::json::value::at(const utility::string_t &) const'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,30): message : 'const web::json::value &web::json::value::at(const utility::string_t &) const': cannot convert argument 1 from 'const char [7]' to 'const utility::string_t &'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,34): message : Reason: cannot convert from 'const char [7]' to 'const utility::string_t'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,34): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string': no overloaded function could convert all the argument types
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(2539,5): message : could be 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(const _Elem *const )'
+          with
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,34): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(const _Elem *const )': cannot convert argument 1 from 'const char [7]' to 'const _Elem *const '
+          with
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,34): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(3072,5): message : or       'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(std::initializer_list<_Elem>,const _Alloc &)'
+          with
+          [
+              _Elem=wchar_t,
+              _Alloc=std::allocator<wchar_t>
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,34): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(std::initializer_list<_Elem>,const _Alloc &)': cannot convert argument 1 from 'const char [7]' to 'std::initializer_list<_Elem>'
+          with
+          [
+              _Elem=wchar_t,
+              _Alloc=std::allocator<wchar_t>
+          ]
+          and
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,34): message : Conversion requires a second user-defined-conversion operator or constructor
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(2569,5): message : or       'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(_Iter,_Iter,const _Alloc &)'
+          with
+          [
+              _Alloc=std::allocator<wchar_t>
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,34): message : while trying to match the argument list '(const char [7])'
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(650,30): message : or       'web::json::value &web::json::value::at(const utility::string_t &)'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,30): message : 'web::json::value &web::json::value::at(const utility::string_t &)': cannot convert argument 1 from 'const char [7]' to 'const utility::string_t &'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,34): message : Reason: cannot convert from 'const char [7]' to 'const utility::string_t'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,34): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string': no overloaded function could convert all the argument types
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(2539,5): message : could be 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(const _Elem *const )'
+          with
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,34): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(const _Elem *const )': cannot convert argument 1 from 'const char [7]' to 'const _Elem *const '
+          with
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,34): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(3072,5): message : or       'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(std::initializer_list<_Elem>,const _Alloc &)'
+          with
+          [
+              _Elem=wchar_t,
+              _Alloc=std::allocator<wchar_t>
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,34): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(std::initializer_list<_Elem>,const _Alloc &)': cannot convert argument 1 from 'const char [7]' to 'std::initializer_list<_Elem>'
+          with
+          [
+              _Elem=wchar_t,
+              _Alloc=std::allocator<wchar_t>
+          ]
+          and
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,34): message : Conversion requires a second user-defined-conversion operator or constructor
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(2569,5): message : or       'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(_Iter,_Iter,const _Alloc &)'
+          with
+          [
+              _Alloc=std::allocator<wchar_t>
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,34): message : while trying to match the argument list '(const char [7])'
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(643,36): message : or       'const web::json::value &web::json::value::at(size_t) const'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,30): message : 'const web::json::value &web::json::value::at(size_t) const': cannot convert argument 1 from 'const char [7]' to 'size_t'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,34): message : There is no context in which this conversion is possible
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(636,30): message : or       'web::json::value &web::json::value::at(size_t)'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,30): message : 'web::json::value &web::json::value::at(size_t)': cannot convert argument 1 from 'const char [7]' to 'size_t'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,34): message : There is no context in which this conversion is possible
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(6,30): message : while trying to match the argument list '(const char [7])'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,28): error C2665: 'web::json::value::at': no overloaded function could convert all the argument types
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(657,36): message : could be 'const web::json::value &web::json::value::at(const utility::string_t &) const'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,28): message : 'const web::json::value &web::json::value::at(const utility::string_t &) const': cannot convert argument 1 from 'const char [5]' to 'const utility::string_t &'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,32): message : Reason: cannot convert from 'const char [5]' to 'const utility::string_t'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,32): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string': no overloaded function could convert all the argument types
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(2539,5): message : could be 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(const _Elem *const )'
+          with
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,32): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(const _Elem *const )': cannot convert argument 1 from 'const char [5]' to 'const _Elem *const '
+          with
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,32): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(3072,5): message : or       'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(std::initializer_list<_Elem>,const _Alloc &)'
+          with
+          [
+              _Elem=wchar_t,
+              _Alloc=std::allocator<wchar_t>
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,32): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(std::initializer_list<_Elem>,const _Alloc &)': cannot convert argument 1 from 'const char [5]' to 'std::initializer_list<_Elem>'
+          with
+          [
+              _Elem=wchar_t,
+              _Alloc=std::allocator<wchar_t>
+          ]
+          and
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,32): message : Conversion requires a second user-defined-conversion operator or constructor
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(2569,5): message : or       'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(_Iter,_Iter,const _Alloc &)'
+          with
+          [
+              _Alloc=std::allocator<wchar_t>
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,32): message : while trying to match the argument list '(const char [5])'
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(650,30): message : or       'web::json::value &web::json::value::at(const utility::string_t &)'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,28): message : 'web::json::value &web::json::value::at(const utility::string_t &)': cannot convert argument 1 from 'const char [5]' to 'const utility::string_t &'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,32): message : Reason: cannot convert from 'const char [5]' to 'const utility::string_t'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,32): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string': no overloaded function could convert all the argument types
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(2539,5): message : could be 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(const _Elem *const )'
+          with
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,32): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(const _Elem *const )': cannot convert argument 1 from 'const char [5]' to 'const _Elem *const '
+          with
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,32): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(3072,5): message : or       'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(std::initializer_list<_Elem>,const _Alloc &)'
+          with
+          [
+              _Elem=wchar_t,
+              _Alloc=std::allocator<wchar_t>
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,32): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(std::initializer_list<_Elem>,const _Alloc &)': cannot convert argument 1 from 'const char [5]' to 'std::initializer_list<_Elem>'
+          with
+          [
+              _Elem=wchar_t,
+              _Alloc=std::allocator<wchar_t>
+          ]
+          and
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,32): message : Conversion requires a second user-defined-conversion operator or constructor
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(2569,5): message : or       'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(_Iter,_Iter,const _Alloc &)'
+          with
+          [
+              _Alloc=std::allocator<wchar_t>
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,32): message : while trying to match the argument list '(const char [5])'
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(643,36): message : or       'const web::json::value &web::json::value::at(size_t) const'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,28): message : 'const web::json::value &web::json::value::at(size_t) const': cannot convert argument 1 from 'const char [5]' to 'size_t'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,32): message : There is no context in which this conversion is possible
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(636,30): message : or       'web::json::value &web::json::value::at(size_t)'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,28): message : 'web::json::value &web::json::value::at(size_t)': cannot convert argument 1 from 'const char [5]' to 'size_t'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,32): message : There is no context in which this conversion is possible
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(7,28): message : while trying to match the argument list '(const char [5])'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(13,23): error C2248: 'web::json::value::operator []': cannot access private member declared in class 'web::json::value'
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(669,24): message : see declaration of 'web::json::value::operator []'
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(72,7): message : see declaration of 'web::json::value'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(13,45): error C2248: 'web::json::value::string': cannot access private member declared in class 'web::json::value'
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(281,38): message : see declaration of 'web::json::value::string'
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(72,7): message : see declaration of 'web::json::value'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,30): error C2665: 'web::json::value::at': no overloaded function could convert all the argument types
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(657,36): message : could be 'const web::json::value &web::json::value::at(const utility::string_t &) const'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,30): message : 'const web::json::value &web::json::value::at(const utility::string_t &) const': cannot convert argument 1 from 'const char [7]' to 'const utility::string_t &'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,34): message : Reason: cannot convert from 'const char [7]' to 'const utility::string_t'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,34): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string': no overloaded function could convert all the argument types
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(2539,5): message : could be 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(const _Elem *const )'
+          with
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,34): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(const _Elem *const )': cannot convert argument 1 from 'const char [7]' to 'const _Elem *const '
+          with
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,34): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(3072,5): message : or       'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(std::initializer_list<_Elem>,const _Alloc &)'
+          with
+          [
+              _Elem=wchar_t,
+              _Alloc=std::allocator<wchar_t>
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,34): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(std::initializer_list<_Elem>,const _Alloc &)': cannot convert argument 1 from 'const char [7]' to 'std::initializer_list<_Elem>'
+          with
+          [
+              _Elem=wchar_t,
+              _Alloc=std::allocator<wchar_t>
+          ]
+          and
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,34): message : Conversion requires a second user-defined-conversion operator or constructor
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(2569,5): message : or       'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(_Iter,_Iter,const _Alloc &)'
+          with
+          [
+              _Alloc=std::allocator<wchar_t>
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,34): message : while trying to match the argument list '(const char [7])'
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(650,30): message : or       'web::json::value &web::json::value::at(const utility::string_t &)'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,30): message : 'web::json::value &web::json::value::at(const utility::string_t &)': cannot convert argument 1 from 'const char [7]' to 'const utility::string_t &'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,34): message : Reason: cannot convert from 'const char [7]' to 'const utility::string_t'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,34): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string': no overloaded function could convert all the argument types
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(2539,5): message : could be 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(const _Elem *const )'
+          with
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,34): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(const _Elem *const )': cannot convert argument 1 from 'const char [7]' to 'const _Elem *const '
+          with
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,34): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(3072,5): message : or       'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(std::initializer_list<_Elem>,const _Alloc &)'
+          with
+          [
+              _Elem=wchar_t,
+              _Alloc=std::allocator<wchar_t>
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,34): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(std::initializer_list<_Elem>,const _Alloc &)': cannot convert argument 1 from 'const char [7]' to 'std::initializer_list<_Elem>'
+          with
+          [
+              _Elem=wchar_t,
+              _Alloc=std::allocator<wchar_t>
+          ]
+          and
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,34): message : Conversion requires a second user-defined-conversion operator or constructor
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(2569,5): message : or       'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(_Iter,_Iter,const _Alloc &)'
+          with
+          [
+              _Alloc=std::allocator<wchar_t>
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,34): message : while trying to match the argument list '(const char [7])'
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(643,36): message : or       'const web::json::value &web::json::value::at(size_t) const'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,30): message : 'const web::json::value &web::json::value::at(size_t) const': cannot convert argument 1 from 'const char [7]' to 'size_t'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,34): message : There is no context in which this conversion is possible
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(636,30): message : or       'web::json::value &web::json::value::at(size_t)'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,30): message : 'web::json::value &web::json::value::at(size_t)': cannot convert argument 1 from 'const char [7]' to 'size_t'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,34): message : There is no context in which this conversion is possible
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(20,30): message : while trying to match the argument list '(const char [7])'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,28): error C2665: 'web::json::value::at': no overloaded function could convert all the argument types
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(657,36): message : could be 'const web::json::value &web::json::value::at(const utility::string_t &) const'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,28): message : 'const web::json::value &web::json::value::at(const utility::string_t &) const': cannot convert argument 1 from 'const char [5]' to 'const utility::string_t &'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,32): message : Reason: cannot convert from 'const char [5]' to 'const utility::string_t'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,32): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string': no overloaded function could convert all the argument types
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(2539,5): message : could be 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(const _Elem *const )'
+          with
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,32): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(const _Elem *const )': cannot convert argument 1 from 'const char [5]' to 'const _Elem *const '
+          with
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,32): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(3072,5): message : or       'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(std::initializer_list<_Elem>,const _Alloc &)'
+          with
+          [
+              _Elem=wchar_t,
+              _Alloc=std::allocator<wchar_t>
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,32): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(std::initializer_list<_Elem>,const _Alloc &)': cannot convert argument 1 from 'const char [5]' to 'std::initializer_list<_Elem>'
+          with
+          [
+              _Elem=wchar_t,
+              _Alloc=std::allocator<wchar_t>
+          ]
+          and
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,32): message : Conversion requires a second user-defined-conversion operator or constructor
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(2569,5): message : or       'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(_Iter,_Iter,const _Alloc &)'
+          with
+          [
+              _Alloc=std::allocator<wchar_t>
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,32): message : while trying to match the argument list '(const char [5])'
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(650,30): message : or       'web::json::value &web::json::value::at(const utility::string_t &)'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,28): message : 'web::json::value &web::json::value::at(const utility::string_t &)': cannot convert argument 1 from 'const char [5]' to 'const utility::string_t &'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,32): message : Reason: cannot convert from 'const char [5]' to 'const utility::string_t'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,32): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string': no overloaded function could convert all the argument types
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(2539,5): message : could be 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(const _Elem *const )'
+          with
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,32): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(const _Elem *const )': cannot convert argument 1 from 'const char [5]' to 'const _Elem *const '
+          with
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,32): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(3072,5): message : or       'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(std::initializer_list<_Elem>,const _Alloc &)'
+          with
+          [
+              _Elem=wchar_t,
+              _Alloc=std::allocator<wchar_t>
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,32): message : 'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(std::initializer_list<_Elem>,const _Alloc &)': cannot convert argument 1 from 'const char [5]' to 'std::initializer_list<_Elem>'
+          with
+          [
+              _Elem=wchar_t,
+              _Alloc=std::allocator<wchar_t>
+          ]
+          and
+          [
+              _Elem=wchar_t
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,32): message : Conversion requires a second user-defined-conversion operator or constructor
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\include\xstring(2569,5): message : or       'std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>::basic_string(_Iter,_Iter,const _Alloc &)'
+          with
+          [
+              _Alloc=std::allocator<wchar_t>
+          ]
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,32): message : while trying to match the argument list '(const char [5])'
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(643,36): message : or       'const web::json::value &web::json::value::at(size_t) const'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,28): message : 'const web::json::value &web::json::value::at(size_t) const': cannot convert argument 1 from 'const char [5]' to 'size_t'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,32): message : There is no context in which this conversion is possible
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(636,30): message : or       'web::json::value &web::json::value::at(size_t)'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,28): message : 'web::json::value &web::json::value::at(size_t)': cannot convert argument 1 from 'const char [5]' to 'size_t'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,32): message : There is no context in which this conversion is possible
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(21,28): message : while trying to match the argument list '(const char [5])'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(27,23): error C2248: 'web::json::value::operator []': cannot access private member declared in class 'web::json::value'
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(669,24): message : see declaration of 'web::json::value::operator []'
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(72,7): message : see declaration of 'web::json::value'
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp(27,45): error C2248: 'web::json::value::string': cannot access private member declared in class 'web::json::value'
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(281,38): message : see declaration of 'web::json::value::string'
+D:\repos\vcpkg\installed\x64-windows\include\cpprest\json.h(72,7): message : see declaration of 'web::json::value'
+  inversionista.cpp
+  proyecto.cpp
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\model\proyecto.cpp(96,129): error C2065: 'inversionista': undeclared identifier
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\model\proyecto.cpp(103,99): error C2065: 'inversionista': undeclared identifier
