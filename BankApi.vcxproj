@@ -145,6 +145,8 @@
   <ItemGroup>
     <ClCompile Include="BankApi.cpp" />
     <ClCompile Include="src\controller\inversionistaController.cpp" />
+    <ClCompile Include="src\controller\proyectoController.cpp" />
+    <ClCompile Include="src\controller\requestHandler.cpp" />
     <ClCompile Include="src\db\dbconnection.cpp" />
     <ClCompile Include="src\model\inversionista.cpp" />
     <ClCompile Include="src\model\proyecto.cpp" />
@@ -152,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="src\controller\inversionistaController.h" />
     <ClInclude Include="src\controller\proyectoController.h" />
+    <ClInclude Include="src\controller\requestHandler.h" />
     <ClInclude Include="src\db\dbconnection.h" />
     <ClInclude Include="src\model\inversionista.h" />
     <ClInclude Include="src\model\proyecto.h" />

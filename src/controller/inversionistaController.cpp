@@ -1,21 +1,7 @@
-// InversionistaController.cpp
 #include "InversionistaController.h"
 #include "model/inversionista.h"
 
-void InversionistaController::handle_post(http_request request) {
-    utility::string_t path = request.request_uri().path();
-    std::string path_normal = utility::conversions::to_utf8string(path);
-
-    if (path_normal == "/crearUsuario") {
-        crearUsuario(request);
-    }
-    else if (path_normal == "/modificarUsuario") {
-        modificarUsuario(request);
-    }
-    else {
-        request.reply(status_codes::NotFound);
-    }
-}
+InversionistaController::InversionistaController(DBConnection* dbConn) : dbConn(dbConn){}
 
 void InversionistaController::crearUsuario(http_request request) {
     web::json::value json = request.extract_json().get();
@@ -26,7 +12,7 @@ void InversionistaController::crearUsuario(http_request request) {
     inversionista.create();
     
     web::json::value respuesta;
-    respuesta[L"message"] = json::value::string(U("Usuario creado exitosamente"));
+    respuesta[L"message"] = web::json::value::string(U("Usuario creado exitosamente"));
     request.reply(status_codes::OK, respuesta);
 }
 
@@ -40,7 +26,7 @@ void InversionistaController::modificarUsuario(http_request request) {
     inversionista.setTipo(tipo);
     inversionista.update(nombre);
 
-    json::value respuesta;
-    respuesta[L"message"] = json::value::string(U("Usuario modificado exitosamente"));
+    web::json::value respuesta;
+    respuesta[L"message"] = web::json::value::string(U("Usuario modificado exitosamente"));
     request.reply(status_codes::OK, respuesta);
 }
