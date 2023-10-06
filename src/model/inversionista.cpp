@@ -3,15 +3,10 @@
 
 Inversionista::Inversionista(const std::string& nombre, const std::string& tipo, DBConnection* dbConn)
     : nombre(nombre), tipo(tipo), dbConn(dbConn) {
-    if (tipo == "basic") {
-        setIngresoMensual(4000000);
-        inversionMax = ((getIngresoMensual() * 20) / 100);
-    }
-    else if (tipo == "full") {
-        setIngresoMensual(8500000);
-        inversionMax = ((getIngresoMensual() * 20) / 100);
-    }
+    inversionConfig(tipo);
 }
+
+Inversionista::Inversionista(){}
 
 // Getters
 std::string Inversionista::getNombre() const { return nombre; }
@@ -24,6 +19,16 @@ void Inversionista::setNombre(const std::string& nombre) { this->nombre = nombre
 void Inversionista::setTipo(const std::string& tipo) { this->tipo = tipo; }
 void Inversionista::setIngresoMensual(double ingresoMensual) { this->ingresoMensual = ingresoMensual; }
 void Inversionista::setInversionMax(double inversionMax) { this->inversionMax = inversionMax; }
+void Inversionista::inversionConfig(std::string tipo) {
+    if (tipo == "basic") {
+        setIngresoMensual(4000000);
+        inversionMax = ((getIngresoMensual() * 20) / 100);
+    }
+    else if (tipo == "full") {
+        setIngresoMensual(8500000);
+        inversionMax = ((getIngresoMensual() * 20) / 100);
+    }
+}
 
 // Database Operations
 void Inversionista::create() {

@@ -13,4 +13,7 @@ public:
 	void realizarInversión(http_request request);
 	void consultarProyecto(http_request request);
 	void listarInversionesRealizadas(http_request request);
+
+private:
+	DBConnection* dbConn;
 };

@@ -1,4 +1,7 @@
 D:\Code\Daniel\C++\PROJECTS\BankApi\BankApi.cpp;D:\Code\Daniel\C++\PROJECTS\BankApi\x64\Release\BankApi.obj
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp;D:\Code\Daniel\C++\PROJECTS\BankApi\x64\Release\inversionistaController.obj
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\proyectoController.cpp;D:\Code\Daniel\C++\PROJECTS\BankApi\x64\Release\proyectoController.obj
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\requestHandler.cpp;D:\Code\Daniel\C++\PROJECTS\BankApi\x64\Release\requestHandler.obj
 D:\Code\Daniel\C++\PROJECTS\BankApi\src\db\dbconnection.cpp;D:\Code\Daniel\C++\PROJECTS\BankApi\x64\Release\dbconnection.obj
 D:\Code\Daniel\C++\PROJECTS\BankApi\src\model\inversionista.cpp;D:\Code\Daniel\C++\PROJECTS\BankApi\x64\Release\inversionista.obj
 D:\Code\Daniel\C++\PROJECTS\BankApi\src\model\proyecto.cpp;D:\Code\Daniel\C++\PROJECTS\BankApi\x64\Release\proyecto.obj

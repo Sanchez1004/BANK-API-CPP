@@ -1,9 +1,33 @@
 #include <iostream>
+#include <cpprest/http_listener.h>
+#include "controller/requestHandler.h"
 
-#include <string>
-#include "controller/inversionistaController.h"
-#include "controller/proyectoController.h"
+using namespace web;
+using namespace http;
+using namespace utility;
+using namespace http::experimental::listener;
 
 int main() {
-    
+    DBConnection* dbConn = new DBConnection("bankdb", "localhost", "root", "1234"); 
+    RequestHandler requestHandler(dbConn);
+
+    http_listener listener(U("http://localhost:8080"));
+
+    listener.support(http::methods::POST, [&requestHandler](http_request request) {
+        requestHandler.handle_post(request);
+        });
+
+    try {
+        listener
+            .open()
+            .then([&listener]() { std::cout << "Starting to listen on " << utility::conversions::to_utf8string(listener.uri().to_string()) << std::endl;})
+            .wait();
+
+        while (true);
+    }
+    catch (std::exception const& e) {
+        std::cout << e.what() << std::endl;
+    }
+
+    return 0;
 }

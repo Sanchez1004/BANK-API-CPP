@@ -15,12 +15,14 @@ private:
 
 public:
 	Inversionista(const std::string& nombre, const std::string& tipo, DBConnection* dbConn);
+	Inversionista();
 
 	// Getters
 	std::string getNombre() const;
 	std::string getTipo() const;
 	double getIngresoMensual() const;
 	double getInversionMax() const;
+	void inversionConfig(std::string tipo);
 
 	// Setters
 	void setNombre(const std::string& nombre);

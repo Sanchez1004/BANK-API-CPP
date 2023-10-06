@@ -24,6 +24,7 @@ void InversionistaController::modificarUsuario(http_request request) {
     Inversionista inversionista("", "", dbConn);
     inversionista.read(nombre);
     inversionista.setTipo(tipo);
+    inversionista.inversionConfig(tipo);
     inversionista.update(nombre);
 
     web::json::value respuesta;

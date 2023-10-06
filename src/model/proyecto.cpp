@@ -92,15 +92,16 @@ void Proyecto::agregarInversion(Inversionista* inversionista, double cantidad) {
 
 
 void Proyecto::eliminarInversion(const std::string& nombreInversionista, const std::string& nombreProyecto) {
+    Inversionista inversionista;
     sql::Statement* stmt = dbConn->getConnection()->createStatement();
-    sql::ResultSet* res = stmt->executeQuery("SELECT cantidad FROM inversiones WHERE nombreInversionistaID = " + std::to_string(inversionista->getId(nombreInversionista)) + " AND nombreProyectoID = " + std::to_string(getId(nombreProyecto)));
+    sql::ResultSet* res = stmt->executeQuery("SELECT cantidad FROM inversiones WHERE nombreInversionistaID = " + std::to_string(inversionista.getId(nombreInversionista)) + " AND nombreProyectoID = " + std::to_string(getId(nombreProyecto)));
 
     double cantidad = 0.0;
     if (res->next()) {
         cantidad = res->getDouble("cantidad");
     }
 
-    std::string query = "DELETE FROM inversiones WHERE nombreInversionistaID = " + std::to_string(inversionista->getId(nombreInversionista)) + " AND nombreProyectoID = " + std::to_string(getId(nombreProyecto));
+    std::string query = "DELETE FROM inversiones WHERE nombreInversionistaID = " + std::to_string(inversionista.getId(nombreInversionista)) + " AND nombreProyectoID = " + std::to_string(getId(nombreProyecto));
     dbConn->ejecutarActualizacion(query);
 
     setCantidadRecaudada(getCantidadRecaudada() - cantidad);
