@@ -15,6 +15,8 @@ private:
 
 public:
 	Inversionista(const std::string& nombre, const std::string& tipo, DBConnection* dbConn);
+	Inversionista(std::string& nombreInversionista, DBConnection* dbConn);
+	Inversionista(DBConnection* dbConn);
 	Inversionista();
 
 	// Getters
@@ -39,7 +41,6 @@ public:
 
 	// Investment Operations
 	double getInversionTotal();
-	std::string realizarInversion(std::string qNombre, double cantidad);
 	void consultarEstadoInversiones(const std::string& nombreInversionista);
 };
 

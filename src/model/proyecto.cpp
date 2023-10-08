@@ -4,6 +4,10 @@
 Proyecto::Proyecto(const std::string& nombre, double cantidadARecaudar, DBConnection* dbConn)
     : nombre(nombre), cantidadARecaudar(cantidadARecaudar), dbConn(dbConn), cantidadRecaudada(0.0), estado(true) {}
 
+Proyecto::Proyecto(std::string& nombreProyecto, DBConnection* dbConn) : dbConn(dbConn) {
+    read(nombreProyecto);
+}
+
 // Getters
 std::string Proyecto::getNombre() const { return nombre; }
 double Proyecto::getCantidadARecaudar() const { return cantidadARecaudar; }
@@ -68,11 +72,25 @@ int Proyecto::getId(const std::string& qNombre) {
 
 
 // Investment operations
-void Proyecto::agregarInversion(Inversionista* inversionista, double cantidad) {
-    if (!getEstado()) {
-        throw std::runtime_error("El proyecto está cerrado para inversiones.");
-    }
+void Proyecto::realizarInversion(std::string nombreInversionista, std::string nombreProyecto, double cantidad) {
+    try {
+        Inversionista inversionista(nombreInversionista, dbConn);
 
+        std::string query = "INSERT INTO inversiones(nombreInversionistaID, nombreProyectoID, cantidad) VALUES ( " +
+            std::to_string(inversionista.getId(nombreInversionista)) + "," +
+            std::to_string(getId(nombreProyecto)) + ", " +
+            std::to_string(cantidad) + ")";
+
+        dbConn->ejecutarActualizacion(query);
+        setCantidadRecaudada(getCantidadRecaudada() + cantidad);
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error al realizar la inversión: " << e.what() << std::endl;
+        throw;
+    }
+}
+
+void Proyecto::validarInversion(Inversionista* inversionista, double cantidad) {
     if (getCantidadRecaudada() + cantidad > getCantidadARecaudar()) {
         throw std::runtime_error("La inversión excede la cantidad a recaudar del proyecto.");
     }
@@ -80,19 +98,10 @@ void Proyecto::agregarInversion(Inversionista* inversionista, double cantidad) {
     if (cantidad > inversionista->getInversionMax()) {
         throw std::runtime_error("La inversión excede el límite de inversión permitido para el inversionista.");
     }
-
-    std::string query = "INSERT INTO inversiones(nombreInversionistaID, nombreProyectoID, cantidad) VALUES (" +
-        std::to_string(inversionista->getId(inversionista->getNombre())) + ", " +
-        std::to_string(getId(getNombre())) + ", " +
-        std::to_string(cantidad) + ")";
-
-    dbConn->ejecutarActualizacion(query);
-    setCantidadRecaudada(getCantidadRecaudada() + cantidad);
 }
 
-
 void Proyecto::eliminarInversion(const std::string& nombreInversionista, const std::string& nombreProyecto) {
-    Inversionista inversionista;
+    Inversionista inversionista(dbConn);
     sql::Statement* stmt = dbConn->getConnection()->createStatement();
     sql::ResultSet* res = stmt->executeQuery("SELECT cantidad FROM inversiones WHERE nombreInversionistaID = " + std::to_string(inversionista.getId(nombreInversionista)) + " AND nombreProyectoID = " + std::to_string(getId(nombreProyecto)));
 
@@ -105,7 +114,35 @@ void Proyecto::eliminarInversion(const std::string& nombreInversionista, const s
     dbConn->ejecutarActualizacion(query);
 
     setCantidadRecaudada(getCantidadRecaudada() - cantidad);
-    if (getCantidadRecaudada() < getCantidadARecaudar()) {
-        setEstado(true);
+}
+
+void Proyecto::consultarProyecto() {
+    sql::Statement* stmt = dbConn->getConnection()->createStatement();
+    sql::ResultSet* res = stmt->executeQuery("SELECT * FROM proyectos WHERE nombre = '" + getNombre() + "'");
+
+    if (res->next()) {
+        std::cout << "Nombre del proyecto: " << res->getString("nombre") << std::endl;
+        std::cout << "Cantidad a recaudar: " << res->getDouble("cantidadARecaudar") << std::endl;
+        std::cout << "Cantidad recaudada: " << res->getDouble("cantidadRecaudada") << std::endl;
+    }
+    else {
+        throw std::runtime_error("Proyecto not found");
+    }
+}
+
+void Proyecto::listarInversionesRealizadas() {
+    sql::Statement* stmt = dbConn->getConnection()->createStatement();
+    sql::ResultSet* res = stmt->executeQuery("SELECT inversiones.id, inversionistas.nombre, inversiones.cantidad, inversiones.fecha FROM inversiones INNER JOIN inversionistas ON inversiones.nombreInversionistaID = inversionistas.id WHERE nombreProyectoID = " + std::to_string(getId(getNombre())));
+
+    if (!res->next()) {
+        throw std::runtime_error("No se encontraron inversiones para este proyecto.");
+    }
+    else {
+        do {
+            std::cout << "ID de la inversión: " << res->getInt("id") << std::endl;
+            std::cout << "Nombre del inversionista: " << res->getString("nombre") << std::endl;
+            std::cout << "Cantidad invertida: " << res->getDouble("cantidad") << std::endl;
+            std::cout << "Fecha de la inversión: " << res->getString("fecha") << std::endl;
+        } while (res->next());
     }
 }

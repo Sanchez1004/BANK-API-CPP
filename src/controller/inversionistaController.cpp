@@ -31,3 +31,47 @@ void InversionistaController::modificarUsuario(http_request request) {
     respuesta[L"message"] = web::json::value::string(U("Usuario modificado exitosamente"));
     request.reply(status_codes::OK, respuesta);
 }
+
+void InversionistaController::verUsuarios(http_request request) {
+    sql::Statement* stmt = dbConn->getConnection()->createStatement();
+    sql::ResultSet* res = stmt->executeQuery("SELECT * FROM inversionistas");
+
+    web::json::value respuesta;
+    int i = 0;
+
+    if (!res->next()) {
+        respuesta[L"message"] = web::json::value::string(U("No se encontraron usuarios."));
+        request.reply(status_codes::NotFound, respuesta);
+    }
+    else {
+        do {
+            web::json::value usuario;
+            usuario[U("id")] = web::json::value::number(res->getInt("id"));
+            usuario[U("nombre")] = web::json::value::string(utility::conversions::to_string_t(res->getString("nombre")));
+            usuario[U("tipo")] = web::json::value::string(utility::conversions::to_string_t(res->getString("tipo")));
+            usuario[U("ingreso_mensual")] = web::json::value::number(static_cast<double>(res->getDouble("ingreso_mensual")));
+
+            respuesta[i++] = usuario;
+        } while (res->next());
+
+        request.reply(status_codes::OK, respuesta);
+    }
+}
+
+void InversionistaController::eliminarUsuario(http_request request) {
+    web::json::value json = request.extract_json().get();
+    std::string nombreInversionista = utility::conversions::to_utf8string(json[U("nombreInversionista")].as_string());
+
+    Inversionista inversionista(nombreInversionista, dbConn);
+    try {
+        inversionista.del(nombreInversionista);
+        web::json::value respuesta;
+        respuesta[L"message"] = web::json::value::string(U("Usuario eliminado con éxito."));
+        request.reply(status_codes::OK, respuesta);
+    }
+    catch (const std::runtime_error& e) {
+        web::json::value respuesta;
+        respuesta[L"message"] = web::json::value::string(utility::conversions::to_string_t(e.what()));
+        request.reply(status_codes::BadRequest, respuesta);
+    }
+}

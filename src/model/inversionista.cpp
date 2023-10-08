@@ -6,6 +6,11 @@ Inversionista::Inversionista(const std::string& nombre, const std::string& tipo,
     inversionConfig(tipo);
 }
 
+Inversionista::Inversionista(std::string& nombreInversionista, DBConnection* dbConn) : dbConn(dbConn) {
+    read(nombreInversionista);
+}
+
+Inversionista::Inversionista(DBConnection* dbConn) : dbConn(dbConn){}
 Inversionista::Inversionista(){}
 
 // Getters
@@ -78,24 +83,6 @@ int Inversionista::getId(const std::string& qNombre) {
 }
 
 // Investment Operations
-std::string Inversionista::realizarInversion(std::string nombreProyecto, double cantidad) {
-    Proyecto proyecto(nombreProyecto, 3000000, dbConn);
-    proyecto.read(nombreProyecto);
-
-    if (cantidad > getInversionMax()) {
-        return "La cantidad excede el límite de inversión permitido.";
-    }
-
-    try {
-        proyecto.agregarInversion(this, cantidad);
-    }
-    catch (const std::runtime_error& e) {
-        return e.what();
-    }
-
-    return "Inversión realizada con éxito.";
-}
-
 void Inversionista::consultarEstadoInversiones(const std::string& nombreInversionista) {
     int idInversionista = getId(nombreInversionista);
 

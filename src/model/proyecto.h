@@ -16,6 +16,7 @@ private:
 
 public:
 	Proyecto(const std::string& nombre, double cantidadARecaudar, DBConnection* dbConn);
+	Proyecto(std::string& nombreProyecto, DBConnection* dbConn);
 
 	// Getters
 	std::string getNombre() const;
@@ -38,8 +39,11 @@ public:
 
 
 	// Investment Operations
-	void agregarInversion(Inversionista* inversionista, double cantidad);
+	void realizarInversion(std::string nombreInversionista, std::string nombreProyecto, double cantidad);
+	void validarInversion(Inversionista* inversionista, double cantidad);
 	void eliminarInversion(const std::string& nombreInversionista, const std::string& nombreProyecto);
+	void consultarProyecto();
+	void listarInversionesRealizadas();
 };
 
 #endif //PROYECTO_H
