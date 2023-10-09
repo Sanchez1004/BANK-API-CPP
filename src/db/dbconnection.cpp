@@ -16,7 +16,34 @@ DBConnection::~DBConnection() { delete con; }
 // Getters
 sql::Connection* DBConnection::getConnection() { return con; }
 
-void DBConnection::ejecutarActualizacion(const std::string& consulta) {
+sql::ResultSet* DBConnection::ejecutarQueryR(const std::string& consulta) {
+    try {
+        sql::Statement* stmt = con->createStatement();
+        sql::ResultSet* res = stmt->executeQuery(consulta);
+        delete stmt;
+        return res;
+    }
+    catch (sql::SQLException& e) {
+        throw;
+    }
+}
+
+sql::ResultSet* DBConnection::ejecutarQueryR(const std::string& consulta, http_request request, web::json::value json) {
+    try {
+        sql::Statement* stmt = con->createStatement();
+        sql::ResultSet* res = stmt->executeQuery(consulta);
+        delete stmt;
+        return res;
+    }
+    catch (sql::SQLException& e) {
+        web::json::value respuesta;
+        respuesta[L"message"] = web::json::value::string(utility::conversions::to_string_t(e.what()));
+        request.reply(status_codes::BadRequest, respuesta);
+        return nullptr;
+    }
+}
+
+void DBConnection::ejecutarQuery(const std::string& consulta) {
     try {
         sql::Statement* stmt = con->createStatement();
         stmt->executeUpdate(consulta);

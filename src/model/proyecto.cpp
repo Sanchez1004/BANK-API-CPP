@@ -27,21 +27,50 @@ void Proyecto::create() {
         std::to_string(getCantidadARecaudar()) + ", " +
         std::to_string(getCantidadRecaudada()) + ", " +
         (getEstado() ? "1" : "0") + ")";
-    dbConn->ejecutarActualizacion(query);
+    dbConn->ejecutarQuery(query);
 }
 
 void Proyecto::read(std::string qNombre) {
-    sql::Statement* stmt = dbConn->getConnection()->createStatement();
-    sql::ResultSet* res = stmt->executeQuery("SELECT * FROM proyectos WHERE nombre = '" + qNombre + "'");
+    try {
+        std::string query = "SELECT * FROM proyectos WHERE nombre = '" + qNombre + "'";
+        sql::ResultSet* res = dbConn->ejecutarQueryR(query);
 
-    if (res->next()) {
-        setNombre(res->getString("nombre"));
-        setCantidadARecaudar(res->getDouble("cantidadARecaudar"));
-        setCantidadRecaudada(res->getDouble("cantidadRecaudada"));
-        setEstado(res->getBoolean("estado"));
+        if (res->next()) {
+            setNombre(res->getString("nombre"));
+            setCantidadARecaudar(res->getDouble("cantidadARecaudar"));
+            setCantidadRecaudada(res->getDouble("cantidadRecaudada"));
+            setEstado(res->getBoolean("estado"));
+        }
+        else {
+            throw std::runtime_error("Proyecto no encontrado");
+        }
     }
-    else {
-        throw std::runtime_error("Proyecto not found");
+    catch (const std::runtime_error& e) {
+        std::cerr << "Runtime error: " << e.what() << std::endl;
+    }
+}
+
+void Proyecto::read(std::string qNombre, http_request request, web::json::value json) {
+    try {
+        std::string query = "SELECT * FROM proyectos WHERE nombre = '" + qNombre + "'";
+        sql::ResultSet* res = dbConn->ejecutarQueryR(query, request,  json);
+
+        if (res->next()) {
+            setNombre(res->getString("nombre"));
+            setCantidadARecaudar(res->getDouble("cantidadARecaudar"));
+            setCantidadRecaudada(res->getDouble("cantidadRecaudada"));
+            setEstado(res->getBoolean("estado"));
+        }
+        else {
+            web::json::value respuesta;
+            respuesta[L"message"] = web::json::value::string(utility::conversions::to_string_t("Proyecto no encontrado"));
+            request.reply(status_codes::BadRequest, respuesta);
+        }
+    }
+    catch (const std::runtime_error& e) {
+        web::json::value respuesta;
+        respuesta[L"message"] = web::json::value::string(utility::conversions::to_string_t(e.what()));
+        request.reply(status_codes::BadRequest, respuesta);
     }
 }
 
@@ -50,12 +79,12 @@ void Proyecto::update(std::string qNombre) {
         ", cantidadRecaudada = " + std::to_string(getCantidadRecaudada()) +
         ", estado = " + (getEstado() ? "1" : "0") +
         " WHERE nombre = '" + qNombre + "'";
-    dbConn->ejecutarActualizacion(query);
+    dbConn->ejecutarQuery(query);
 }
 
 void Proyecto::del(std::string qNombre) {
     std::string query = "DELETE FROM proyectos WHERE nombre = '" + qNombre + "'";
-    dbConn->ejecutarActualizacion(query);
+    dbConn->ejecutarQuery(query);
 }
 
 int Proyecto::getId(const std::string& qNombre) {
@@ -66,37 +95,42 @@ int Proyecto::getId(const std::string& qNombre) {
         return res->getInt("id");
     }
     else {
-        throw std::runtime_error("Proyecto not found");
+        throw std::runtime_error("Proyecto no encontrado");
     }
 }
-
 
 // Investment operations
-void Proyecto::realizarInversion(std::string nombreInversionista, std::string nombreProyecto, double cantidad) {
+void Proyecto::realizarInversion(std::string nombreInversionista, std::string nombreProyecto, std::string cantidad, http_request request, web::json::value json) {
     try {
         Inversionista inversionista(nombreInversionista, dbConn);
+        int idInversionista = inversionista.getId(nombreInversionista);
+        int idProyecto = getId(nombreProyecto);
+        double dcantidad = std::stod(cantidad);
 
-        std::string query = "INSERT INTO inversiones(nombreInversionistaID, nombreProyectoID, cantidad) VALUES ( " +
-            std::to_string(inversionista.getId(nombreInversionista)) + "," +
-            std::to_string(getId(nombreProyecto)) + ", " +
-            std::to_string(cantidad) + ")";
+        if (getCantidadRecaudada() + dcantidad > getCantidadARecaudar()) {
+            throw std::runtime_error("La inversión excede la cantidad a recaudar del proyecto.");
+        }
 
-        dbConn->ejecutarActualizacion(query);
-        setCantidadRecaudada(getCantidadRecaudada() + cantidad);
+        if (dcantidad > inversionista.getInversionMax()) {
+            throw std::runtime_error("La inversión excede el límite de inversión permitido para el inversionista.");
+        }
+
+        std::string query = "INSERT INTO inversiones (nombreInversionistaID, nombreProyectoID, cantidad) VALUES ("
+            + std::to_string(idInversionista) + ", "
+            + std::to_string(idProyecto) + ", "
+            + std::to_string(dcantidad) + ")";
+
+        dbConn->ejecutarQueryR(query, request, json);
+        setCantidadRecaudada(getCantidadRecaudada() + dcantidad);
+
+        web::json::value respuesta;
+        respuesta[L"message"] = web::json::value::string(U("Inversión realizada con éxito."));
+        request.reply(status_codes::OK, respuesta);
     }
     catch (const std::exception& e) {
-        std::cerr << "Error al realizar la inversión: " << e.what() << std::endl;
-        throw;
-    }
-}
-
-void Proyecto::validarInversion(Inversionista* inversionista, double cantidad) {
-    if (getCantidadRecaudada() + cantidad > getCantidadARecaudar()) {
-        throw std::runtime_error("La inversión excede la cantidad a recaudar del proyecto.");
-    }
-
-    if (cantidad > inversionista->getInversionMax()) {
-        throw std::runtime_error("La inversión excede el límite de inversión permitido para el inversionista.");
+        web::json::value respuesta;
+        respuesta[L"message"] = web::json::value::string(utility::conversions::to_string_t(e.what()));
+        request.reply(status_codes::BadRequest, respuesta);
     }
 }
 
@@ -111,24 +145,11 @@ void Proyecto::eliminarInversion(const std::string& nombreInversionista, const s
     }
 
     std::string query = "DELETE FROM inversiones WHERE nombreInversionistaID = " + std::to_string(inversionista.getId(nombreInversionista)) + " AND nombreProyectoID = " + std::to_string(getId(nombreProyecto));
-    dbConn->ejecutarActualizacion(query);
+    dbConn->ejecutarQuery(query);
 
     setCantidadRecaudada(getCantidadRecaudada() - cantidad);
 }
 
-void Proyecto::consultarProyecto() {
-    sql::Statement* stmt = dbConn->getConnection()->createStatement();
-    sql::ResultSet* res = stmt->executeQuery("SELECT * FROM proyectos WHERE nombre = '" + getNombre() + "'");
-
-    if (res->next()) {
-        std::cout << "Nombre del proyecto: " << res->getString("nombre") << std::endl;
-        std::cout << "Cantidad a recaudar: " << res->getDouble("cantidadARecaudar") << std::endl;
-        std::cout << "Cantidad recaudada: " << res->getDouble("cantidadRecaudada") << std::endl;
-    }
-    else {
-        throw std::runtime_error("Proyecto not found");
-    }
-}
 
 void Proyecto::listarInversionesRealizadas() {
     sql::Statement* stmt = dbConn->getConnection()->createStatement();

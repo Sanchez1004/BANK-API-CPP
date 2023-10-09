@@ -17,6 +17,7 @@ public:
 	Inversionista(const std::string& nombre, const std::string& tipo, DBConnection* dbConn);
 	Inversionista(std::string& nombreInversionista, DBConnection* dbConn);
 	Inversionista(DBConnection* dbConn);
+	Inversionista(std::string nombreinversionista);
 	Inversionista();
 
 	// Getters

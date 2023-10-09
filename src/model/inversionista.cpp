@@ -11,6 +11,9 @@ Inversionista::Inversionista(std::string& nombreInversionista, DBConnection* dbC
 }
 
 Inversionista::Inversionista(DBConnection* dbConn) : dbConn(dbConn){}
+Inversionista::Inversionista(std::string nombreinversionista) {
+    read(nombreinversionista);
+}
 Inversionista::Inversionista(){}
 
 // Getters
@@ -41,7 +44,7 @@ void Inversionista::create() {
         getNombre() + "', '" +
         getTipo() + "', " +
         std::to_string(getIngresoMensual()) + ")";
-    dbConn->ejecutarActualizacion(query);
+    dbConn->ejecutarQuery(query);
 }
 
 void Inversionista::read(std::string qNombre) {
@@ -54,7 +57,7 @@ void Inversionista::read(std::string qNombre) {
         setIngresoMensual(res->getDouble("ingreso_mensual"));
     }
     else {
-        throw std::runtime_error("Inversionista not found");
+        throw std::runtime_error("Inversionista no encontrado");
     }
 }
 
@@ -62,12 +65,12 @@ void Inversionista::update(std::string qNombre) {
     std::string query = "UPDATE inversionistas SET tipo = '" + getTipo() +
         "', ingreso_mensual = " + std::to_string(getIngresoMensual()) +
         " WHERE nombre = '" + qNombre + "'";
-    dbConn->ejecutarActualizacion(query);
+    dbConn->ejecutarQuery(query);
 }
 
 void Inversionista::del(std::string qNombre) {
     std::string query = "DELETE FROM inversionistas WHERE nombre = '" + qNombre + "'";
-    dbConn->ejecutarActualizacion(query);
+    dbConn->ejecutarQuery(query);
 }
 
 int Inversionista::getId(const std::string& qNombre) {
@@ -78,7 +81,7 @@ int Inversionista::getId(const std::string& qNombre) {
         return res->getInt("id");
     }
     else {
-        throw std::runtime_error("Inversionista not found");
+        throw std::runtime_error("Inversionista no encontrado");
     }
 }
 

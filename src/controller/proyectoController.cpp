@@ -25,16 +25,13 @@ void ProyectoController::realizarInversion(http_request request) {
     web::json::value json = request.extract_json().get();
     std::string nombreInversionista = utility::conversions::to_utf8string(json[U("nombreInversionista")].as_string());
     std::string nombreProyecto = utility::conversions::to_utf8string(json[U("nombreProyecto")].as_string());
-    double cantidad = json[U("cantidad")].as_double();
+    std::string cantidad = utility::conversions::to_utf8string(json[U("cantidad")].as_string());
 
     Proyecto proyecto(nombreProyecto, dbConn);
     try {
-        proyecto.realizarInversion(nombreInversionista, nombreProyecto, cantidad);
-        web::json::value respuesta;
-        respuesta[L"message"] = web::json::value::string(U("Inversión realizada con éxito."));
-        request.reply(status_codes::OK, respuesta);
+        proyecto.realizarInversion(nombreInversionista, nombreProyecto, cantidad, request, json);
     }
-    catch (const std::runtime_error& e) {
+    catch (const std::exception& e) {
         web::json::value respuesta;
         respuesta[L"message"] = web::json::value::string(utility::conversions::to_string_t(e.what()));
         request.reply(status_codes::BadRequest, respuesta);
@@ -47,9 +44,13 @@ void ProyectoController::consultarProyecto(http_request request) {
 
     Proyecto proyecto(nombreProyecto, dbConn);
     try {
-        proyecto.consultarProyecto();
+        proyecto.read(nombreProyecto, request, json);
         web::json::value respuesta;
-        respuesta[L"message"] = web::json::value::string(U("Consulta realizada con éxito."));
+        respuesta[U("nombre")] = web::json::value::string(utility::conversions::to_string_t(proyecto.getNombre()));
+        respuesta[U("cantidadARecaudar")] = web::json::value::number(proyecto.getCantidadARecaudar());
+        respuesta[U("cantidadRecaudada")] = web::json::value::number(proyecto.getCantidadRecaudada());
+        respuesta[U("estado")] = web::json::value::boolean(proyecto.getEstado());
+
         request.reply(status_codes::OK, respuesta);
     }
     catch (const std::runtime_error& e) {
@@ -121,9 +122,9 @@ void ProyectoController::cambiarNombreProyecto(http_request request) {
 
     Proyecto proyecto(nombreActual, dbConn);
     try {
-        proyecto.read(nombreActual); // Leer el proyecto actual
-        proyecto.setNombre(nuevoNombre); // Cambiar el nombre del proyecto
-        proyecto.update(nombreActual); // Actualizar el proyecto en la base de datos
+        proyecto.read(nombreActual, request, json); 
+        proyecto.setNombre(nuevoNombre);
+        proyecto.update(nombreActual); 
 
         web::json::value respuesta;
         respuesta[L"message"] = web::json::value::string(U("Nombre del proyecto cambiado con éxito."));

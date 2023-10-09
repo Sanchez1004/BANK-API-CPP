@@ -6,6 +6,11 @@
 #include <jdbc/mysql_connection.h>
 #include <jdbc/mysql_driver.h>
 #include <jdbc/cppconn/statement.h>
+#include "cpprest/http_listener.h"
+#include "cpprest/json.h"
+
+using namespace web::http;
+using namespace web::http::experimental::listener;
 
 class DBConnection {
 private:
@@ -18,6 +23,8 @@ public:
 
     sql::Connection* getConnection();
 
-    void ejecutarActualizacion(const std::string& consulta);
+    sql::ResultSet* ejecutarQueryR(const std::string& consulta);
+    sql::ResultSet* ejecutarQueryR(const std::string& consulta, http_request request, web::json::value json);
+    void ejecutarQuery(const std::string& consulta);
 };
 #endif // DBCONNECTION_H

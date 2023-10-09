@@ -5,6 +5,11 @@
 #include <string>
 #include "db/dbconnection.h"
 #include "inversionista.h"
+#include "cpprest/http_listener.h"
+#include "cpprest/json.h"
+
+using namespace web::http;
+using namespace web::http::experimental::listener;
 
 class Proyecto {
 private:
@@ -33,16 +38,15 @@ public:
 	// Database Operations
 	void create();
 	void read(std::string qNombre);
+	void read(std::string qNombre, http_request request, web::json::value json);
 	void update(std::string qNombre);
 	void del(std::string qNombre);
 	int getId(const std::string& nombre);
 
 
 	// Investment Operations
-	void realizarInversion(std::string nombreInversionista, std::string nombreProyecto, double cantidad);
-	void validarInversion(Inversionista* inversionista, double cantidad);
+	void realizarInversion(std::string nombreInversionista, std::string nombreProyecto, std::string cantidad, http_request request, web::json::value json);
 	void eliminarInversion(const std::string& nombreInversionista, const std::string& nombreProyecto);
-	void consultarProyecto();
 	void listarInversionesRealizadas();
 };
 
