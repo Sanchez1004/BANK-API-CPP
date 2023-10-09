@@ -68,10 +68,9 @@ void InversionistaController::modificarUsuario(http_request request) {
     }
 }
 
-
 void InversionistaController::verUsuarios(http_request request) {
-    sql::Statement* stmt = dbConn->getConnection()->createStatement();
-    sql::ResultSet* res = stmt->executeQuery("SELECT * FROM inversionistas");
+    Inversionista inversionista(dbConn);
+    sql::ResultSet* res = inversionista.verUsuarios();
 
     web::json::value respuesta;
     int i = 0;

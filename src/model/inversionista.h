@@ -43,6 +43,7 @@ public:
 	// Investment Operations
 	double getInversionTotal();
 	void consultarEstadoInversiones(const std::string& nombreInversionista);
+	sql::ResultSet* verUsuarios();
 };
 
 #endif //INVERSIONISTA_H

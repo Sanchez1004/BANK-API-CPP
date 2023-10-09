@@ -43,7 +43,7 @@ void RequestHandler::handle_get(http_request request) {
         request.reply(status_codes::NotFound);
     }
 }
-
+    
 void RequestHandler::handle_delete(http_request request) {
     InversionistaController inversionistaController(dbConn);
     ProyectoController proyectoController(dbConn);

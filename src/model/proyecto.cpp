@@ -7,6 +7,8 @@ Proyecto::Proyecto(const std::string& nombre, double cantidadARecaudar, DBConnec
 Proyecto::Proyecto(std::string& nombreProyecto, DBConnection* dbConn) : dbConn(dbConn) {
     read(nombreProyecto);
 }
+Proyecto::Proyecto(DBConnection* dbConn) : dbConn(dbConn) {};
+
 
 // Getters
 std::string Proyecto::getNombre() const { return nombre; }
@@ -30,9 +32,9 @@ void Proyecto::create() {
     dbConn->ejecutarQuery(query);
 }
 
-void Proyecto::read(std::string qNombre) {
+void Proyecto::read(std::string nombreProyecto) {
     try {
-        std::string query = "SELECT * FROM proyectos WHERE nombre = '" + qNombre + "'";
+        std::string query = "SELECT * FROM proyectos WHERE nombre = '" + nombreProyecto + "'";
         sql::ResultSet* res = dbConn->ejecutarQueryR(query);
 
         if (res->next()) {
@@ -46,50 +48,36 @@ void Proyecto::read(std::string qNombre) {
         }
     }
     catch (const std::runtime_error& e) {
-        std::cerr << "Runtime error: " << e.what() << std::endl;
+        std::cerr << "Ocurrió un error: " << e.what() << '\n';
+        throw;
     }
 }
 
-void Proyecto::read(std::string qNombre, http_request request, web::json::value json) {
-    try {
-        std::string query = "SELECT * FROM proyectos WHERE nombre = '" + qNombre + "'";
-        sql::ResultSet* res = dbConn->ejecutarQueryR(query, request,  json);
-
-        if (res->next()) {
-            setNombre(res->getString("nombre"));
-            setCantidadARecaudar(res->getDouble("cantidadARecaudar"));
-            setCantidadRecaudada(res->getDouble("cantidadRecaudada"));
-            setEstado(res->getBoolean("estado"));
-        }
-        else {
-            web::json::value respuesta;
-            respuesta[L"message"] = web::json::value::string(utility::conversions::to_string_t("Proyecto no encontrado"));
-            request.reply(status_codes::BadRequest, respuesta);
-        }
-    }
-    catch (const std::runtime_error& e) {
-        web::json::value respuesta;
-        respuesta[L"message"] = web::json::value::string(utility::conversions::to_string_t(e.what()));
-        request.reply(status_codes::BadRequest, respuesta);
-    }
-}
-
-void Proyecto::update(std::string qNombre) {
+void Proyecto::update(std::string nombreProyecto) {
     std::string query = "UPDATE proyectos SET cantidadARecaudar = " + std::to_string(getCantidadARecaudar()) +
         ", cantidadRecaudada = " + std::to_string(getCantidadRecaudada()) +
         ", estado = " + (getEstado() ? "1" : "0") +
-        " WHERE nombre = '" + qNombre + "'";
+        " WHERE nombre = '" + nombreProyecto + "'";
     dbConn->ejecutarQuery(query);
 }
 
-void Proyecto::del(std::string qNombre) {
-    std::string query = "DELETE FROM proyectos WHERE nombre = '" + qNombre + "'";
+void Proyecto::del(std::string nombreProyecto) {
+    std::string query = "SELECT * FROM proyectos WHERE nombre = '" + nombreProyecto + "'";
+    sql::ResultSet* res = dbConn->ejecutarQueryR(query);
+
+    if (!res->next()) {
+        throw std::runtime_error("El proyecto no existe.");
+    }
+
+    query = "DELETE FROM proyectos WHERE nombre = '" + nombreProyecto + "'";
     dbConn->ejecutarQuery(query);
 }
 
-int Proyecto::getId(const std::string& qNombre) {
+
+
+int Proyecto::getId(const std::string& nombreProyecto) {
     sql::Statement* stmt = dbConn->getConnection()->createStatement();
-    sql::ResultSet* res = stmt->executeQuery("SELECT id FROM proyectos WHERE nombre = '" + qNombre + "'");
+    sql::ResultSet* res = stmt->executeQuery("SELECT id FROM proyectos WHERE nombre = '" + nombreProyecto + "'");
 
     if (res->next()) {
         return res->getInt("id");
@@ -99,13 +87,38 @@ int Proyecto::getId(const std::string& qNombre) {
     }
 }
 
+bool Proyecto::existe(const std::string& nombreProyecto) {
+    try {
+        std::string query = "SELECT COUNT(*) AS count FROM proyectos WHERE nombre = '" + nombreProyecto + "'";
+        sql::ResultSet* res = dbConn->ejecutarQueryR(query);
+
+        bool exists = false;
+        if (res->next()) {
+            int count = res->getInt("count");
+            exists = count > 0;
+        }
+
+        delete res;
+
+        return exists;
+    }
+    catch (const sql::SQLException& e) {
+        std::cerr << "Ocurrió un error: " << e.what() << '\n';
+        throw;
+    }
+}
+
+
 // Investment operations
-void Proyecto::realizarInversion(std::string nombreInversionista, std::string nombreProyecto, std::string cantidad, http_request request, web::json::value json) {
+void Proyecto::realizarInversion(std::string nombreInversionista, std::string nombreProyecto, std::string cantidad) {
     try {
         Inversionista inversionista(nombreInversionista, dbConn);
         int idInversionista = inversionista.getId(nombreInversionista);
         int idProyecto = getId(nombreProyecto);
-        double dcantidad = std::stod(cantidad);
+
+        std::istringstream iss(cantidad);
+        double dcantidad;
+        iss >> dcantidad; // Convertir string a double
 
         if (getCantidadRecaudada() + dcantidad > getCantidadARecaudar()) {
             throw std::runtime_error("La inversión excede la cantidad a recaudar del proyecto.");
@@ -120,19 +133,15 @@ void Proyecto::realizarInversion(std::string nombreInversionista, std::string no
             + std::to_string(idProyecto) + ", "
             + std::to_string(dcantidad) + ")";
 
-        dbConn->ejecutarQueryR(query, request, json);
+        dbConn->ejecutarQueryR(query);
         setCantidadRecaudada(getCantidadRecaudada() + dcantidad);
-
-        web::json::value respuesta;
-        respuesta[L"message"] = web::json::value::string(U("Inversión realizada con éxito."));
-        request.reply(status_codes::OK, respuesta);
     }
     catch (const std::exception& e) {
-        web::json::value respuesta;
-        respuesta[L"message"] = web::json::value::string(utility::conversions::to_string_t(e.what()));
-        request.reply(status_codes::BadRequest, respuesta);
+        std::cerr << "Ocurrió un error: " << e.what() << '\n';
+        throw;
     }
 }
+
 
 void Proyecto::eliminarInversion(const std::string& nombreInversionista, const std::string& nombreProyecto) {
     Inversionista inversionista(dbConn);

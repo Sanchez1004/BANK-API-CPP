@@ -24,7 +24,6 @@ public:
     sql::Connection* getConnection();
 
     sql::ResultSet* ejecutarQueryR(const std::string& consulta);
-    sql::ResultSet* ejecutarQueryR(const std::string& consulta, http_request request, web::json::value json);
     void ejecutarQuery(const std::string& consulta);
 };
 #endif // DBCONNECTION_H

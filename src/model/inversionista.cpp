@@ -116,3 +116,9 @@ double Inversionista::getInversionTotal() {
         return 0.0;
     }
 }
+
+sql::ResultSet* Inversionista::verUsuarios() {
+    std::string query = "SELECT * FROM inversionistas";
+    sql::ResultSet* res = dbConn->ejecutarQueryR(query);
+    return res;
+}
