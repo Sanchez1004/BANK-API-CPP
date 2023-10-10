@@ -39,6 +39,9 @@ void RequestHandler::handle_get(http_request request) {
     else if (pathString == "/listarInversiones") {
         proyectoController.listarInversionesRealizadas(request);
     }
+    else if (pathString == "/consultarEstadoInversiones") {
+        inversionistaController.consultarEstadoInversiones(request);
+    }
     else {
         request.reply(status_codes::NotFound);
     }

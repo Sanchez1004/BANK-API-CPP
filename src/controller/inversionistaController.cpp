@@ -111,3 +111,31 @@ void InversionistaController::eliminarUsuario(http_request request) {
         request.reply(status_codes::BadRequest, respuesta);
     }
 }
+
+void InversionistaController::consultarEstadoInversiones(http_request request) {
+    auto json = request.extract_json().get();
+    std::string nombreInversionista = utility::conversions::to_utf8string(json[U("nombreInversionista")].as_string());
+
+    Inversionista inversionista(dbConn);
+    try {
+        std::vector<std::pair<std::string, double>> inversiones = inversionista.consultarEstadoInversiones(nombreInversionista);
+
+        std::vector<web::json::value> inversionesJson;
+        for (const auto& inversion : inversiones) {
+            web::json::value inversionJson;
+            inversionJson[U("nombreProyecto")] = web::json::value::string(utility::conversions::to_string_t(inversion.first));
+            inversionJson[U("cantidad")] = web::json::value::number(inversion.second);
+            inversionesJson.push_back(inversionJson);
+        }
+
+        web::json::value respuesta;
+        respuesta[U("inversiones")] = web::json::value::array(inversionesJson);
+
+        request.reply(status_codes::OK, respuesta);
+    }
+    catch (const std::exception& e) {
+        web::json::value respuesta;
+        respuesta[L"message"] = web::json::value::string(utility::conversions::to_string_t(e.what()));
+        request.reply(status_codes::BadRequest, respuesta);
+    }
+}

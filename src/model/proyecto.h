@@ -49,7 +49,7 @@ public:
 	// Investment Operations
 	void realizarInversion(std::string nombreInversionista, std::string nombreProyecto, std::string cantidad);
 	void eliminarInversion(const std::string& nombreInversionista, const std::string& nombreProyecto);
-	void listarInversionesRealizadas();
+	std::vector<std::tuple<int, std::string, double, std::string>> listarInversionesRealizadas(const std::string& nombreProyecto);
 };
 
 #endif //PROYECTO_H

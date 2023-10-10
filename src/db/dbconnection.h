@@ -6,6 +6,7 @@
 #include <jdbc/mysql_connection.h>
 #include <jdbc/mysql_driver.h>
 #include <jdbc/cppconn/statement.h>
+#include <jdbc/cppconn/prepared_statement.h>
 #include "cpprest/http_listener.h"
 #include "cpprest/json.h"
 
@@ -23,7 +24,7 @@ public:
 
     sql::Connection* getConnection();
 
-    sql::ResultSet* ejecutarQueryR(const std::string& consulta);
-    void ejecutarQuery(const std::string& consulta);
+    sql::ResultSet* ejecutarQueryR(sql::PreparedStatement* pstmt);
+    sql::PreparedStatement* prepareStatement(const std::string& consulta);
 };
 #endif // DBCONNECTION_H

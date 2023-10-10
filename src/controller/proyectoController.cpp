@@ -38,6 +38,21 @@ void ProyectoController::realizarInversion(http_request request) {
     try {
         proyecto.realizarInversion(nombreInversionista, nombreProyecto, cantidad);
 
+        if (proyecto.getCantidadRecaudada() > proyecto.getCantidadARecaudar()) {
+            web::json::value respuesta;
+            respuesta[L"message"] = web::json::value::string(U("La inversión supera la cantidad a recaudar del proyecto."));
+            request.reply(status_codes::BadRequest, respuesta);
+            return;
+        }
+
+        Inversionista inversionista(nombreInversionista, dbConn);
+        if (std::stod(cantidad) > inversionista.getInversionMax()) {
+            web::json::value respuesta;
+            respuesta[L"message"] = web::json::value::string(U("La inversión supera la cantidad máxima que puede hacer el inversionista."));
+            request.reply(status_codes::BadRequest, respuesta);
+            return;
+        }
+
         web::json::value respuesta;
         respuesta[L"message"] = web::json::value::string(U("Inversión realizada con éxito."));
         request.reply(status_codes::OK, respuesta);
@@ -48,6 +63,7 @@ void ProyectoController::realizarInversion(http_request request) {
         request.reply(status_codes::BadRequest, respuesta);
     }
 }
+
 
 void ProyectoController::consultarProyecto(http_request request) {
     web::json::value json = request.extract_json().get();
@@ -72,22 +88,35 @@ void ProyectoController::consultarProyecto(http_request request) {
 }
 
 void ProyectoController::listarInversionesRealizadas(http_request request) {
-    web::json::value json = request.extract_json().get();
+    auto json = request.extract_json().get();
     std::string nombreProyecto = utility::conversions::to_utf8string(json[U("nombreProyecto")].as_string());
 
-    Proyecto proyecto(nombreProyecto, dbConn);
+    Proyecto proyecto(dbConn);
     try {
-        proyecto.listarInversionesRealizadas();
+        std::vector<std::tuple<int, std::string, double, std::string>> inversiones = proyecto.listarInversionesRealizadas(nombreProyecto);
+
+        std::vector<web::json::value> inversionesJson;
+        for (const auto& inversion : inversiones) {
+            web::json::value inversionJson;
+            inversionJson[U("id")] = web::json::value::number(std::get<0>(inversion));
+            inversionJson[U("nombre")] = web::json::value::string(utility::conversions::to_string_t(std::get<1>(inversion)));
+            inversionJson[U("cantidad")] = web::json::value::number(std::get<2>(inversion));
+            inversionJson[U("fecha")] = web::json::value::string(utility::conversions::to_string_t(std::get<3>(inversion)));
+            inversionesJson.push_back(inversionJson);
+        }
+
         web::json::value respuesta;
-        respuesta[L"message"] = web::json::value::string(U("Consulta de inversiones realizada con éxito."));
+        respuesta[U("inversiones")] = web::json::value::array(inversionesJson);
+
         request.reply(status_codes::OK, respuesta);
     }
-    catch (const std::runtime_error& e) {
+    catch (const std::exception& e) {
         web::json::value respuesta;
         respuesta[L"message"] = web::json::value::string(utility::conversions::to_string_t(e.what()));
         request.reply(status_codes::BadRequest, respuesta);
     }
 }
+
 
 void ProyectoController::eliminarProyecto(http_request request) {
     web::json::value json = request.extract_json().get();

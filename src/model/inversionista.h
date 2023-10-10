@@ -42,7 +42,7 @@ public:
 
 	// Investment Operations
 	double getInversionTotal();
-	void consultarEstadoInversiones(const std::string& nombreInversionista);
+	std::vector<std::pair<std::string, double>> consultarEstadoInversiones(const std::string& nombreInversionista);
 	sql::ResultSet* verUsuarios();
 };
 

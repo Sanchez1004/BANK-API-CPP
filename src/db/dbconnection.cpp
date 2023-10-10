@@ -16,25 +16,24 @@ DBConnection::~DBConnection() { delete con; }
 // Getters
 sql::Connection* DBConnection::getConnection() { return con; }
 
-sql::ResultSet* DBConnection::ejecutarQueryR(const std::string& consulta) {
+sql::ResultSet* DBConnection::ejecutarQueryR(sql::PreparedStatement* pstmt) {
     try {
-        sql::Statement* stmt = con->createStatement();
-        sql::ResultSet* res = stmt->executeQuery(consulta);
-        delete stmt;
+        sql::ResultSet* res = pstmt->executeQuery();
         return res;
     }
     catch (sql::SQLException& e) {
         std::cerr << "Error al ejecutar la actualización: " << e.what() << e.getErrorCode() << std::endl;
+        throw; // Lanza la excepción para que pueda ser capturada en el método que llamó a ejecutarQueryR
     }
 }
 
-void DBConnection::ejecutarQuery(const std::string& consulta) {
+sql::PreparedStatement* DBConnection::prepareStatement(const std::string& consulta) {
     try {
-        sql::Statement* stmt = con->createStatement();
-        stmt->executeUpdate(consulta);
-        delete stmt;
+        sql::PreparedStatement* pstmt = con->prepareStatement(consulta);
+        return pstmt;
     }
     catch (sql::SQLException& e) {
-        std::cerr << "Error al ejecutar la actualización: " << e.what() << e.getErrorCode() << std::endl;
+        std::cerr << "Error al preparar la consulta: " << e.what() << e.getErrorCode() << std::endl;
+        throw;
     }
 }

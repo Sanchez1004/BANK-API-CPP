@@ -14,6 +14,7 @@ public:
     void modificarUsuario(http_request request);
     void verUsuarios(http_request request);
     void eliminarUsuario(http_request request);
+    void consultarEstadoInversiones(http_request request);
 
 private:
     DBConnection* dbConn;
