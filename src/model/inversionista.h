@@ -7,17 +7,13 @@
 
 class Inversionista {
 private:
-	DBConnection* dbConn;
+	DBConnection* dbConn = new DBConnection("bankdb", "localhost", "root", "1234");
 	std::string nombre;
 	std::string tipo;
 	double ingresoMensual;
 	double inversionMax;
 
 public:
-	Inversionista(const std::string& nombre, const std::string& tipo, DBConnection* dbConn);
-	Inversionista(std::string& nombreInversionista, DBConnection* dbConn);
-	Inversionista(DBConnection* dbConn);
-	Inversionista(std::string nombreinversionista);
 	Inversionista();
 
 	// Getters
@@ -39,6 +35,7 @@ public:
     void update(std::string qNombre);
     void del(std::string qNombre);
 	int getId(const std::string& nombre);
+	bool existe(const std::string& nombreInversionista);
 
 	// Investment Operations
 	double getInversionTotal();

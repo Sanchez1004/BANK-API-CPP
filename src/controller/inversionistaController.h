@@ -9,13 +9,12 @@ using namespace web::http::experimental::listener;
 
 class InversionistaController {
 public:
-    InversionistaController(DBConnection* dbConn);
+    InversionistaController();
     void crearUsuario(http_request request);
     void modificarUsuario(http_request request);
     void verUsuarios(http_request request);
     void eliminarUsuario(http_request request);
     void consultarEstadoInversiones(http_request request);
-
 private:
-    DBConnection* dbConn;
+    Inversionista inversionista;
 }; 

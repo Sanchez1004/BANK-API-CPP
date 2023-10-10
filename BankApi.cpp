@@ -2,14 +2,8 @@
 #include <cpprest/http_listener.h>
 #include "controller/requestHandler.h"
 
-using namespace web;
-using namespace http;
-using namespace utility;
-using namespace http::experimental::listener;
-
 int main() {
-    DBConnection* dbConn = new DBConnection("bankdb", "localhost", "root", "1234"); 
-    RequestHandler requestHandler(dbConn);
+    RequestHandler requestHandler;
 
     http_listener listener(U("http://localhost:8080"));
 

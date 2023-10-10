@@ -23,8 +23,7 @@ public:
     ~DBConnection();
 
     sql::Connection* getConnection();
-
-    sql::ResultSet* ejecutarQueryR(sql::PreparedStatement* pstmt);
-    sql::PreparedStatement* prepareStatement(const std::string& consulta);
+    
+    sql::ResultSet* executeQuery(const std::string& consulta);
 };
 #endif // DBCONNECTION_H

@@ -1,4 +1,2 @@
 D:\Code\Daniel\C++\PROYECTS\BankApi\x64\Release\BankApi.exe
 D:\Code\Daniel\C++\PROJECTS\BankApi\x64\Release\BankApi.exe
-D:\Code\Daniel\C++\PROJECTS\BankApi\x64\Release\BankApi.vcxproj.CopyComplete
-D:\Code\Daniel\C++\PROJECTS\BankApi\x64\Release\cpprest_2_10.dll

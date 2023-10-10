@@ -5,14 +5,19 @@
 #include "controller/inversionistaController.h"
 #include "controller/proyectoController.h"
 
+using namespace web;
+using namespace http;
+using namespace utility;
+using namespace http::experimental::listener;
+
 class RequestHandler {
 public:
-	RequestHandler(DBConnection* dbConn);
+	RequestHandler();
 	void handle_post(http_request request);
 	void handle_get(http_request request);
 	void handle_delete(http_request request);
 	void handle_put(http_request request);
-
 private:
-	DBConnection* dbConn;
+	InversionistaController inversionistaController;
+	ProyectoController proyectoController;
 };

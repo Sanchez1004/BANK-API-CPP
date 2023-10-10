@@ -1,7 +1,7 @@
 #include "InversionistaController.h"
 #include "model/inversionista.h"
 
-InversionistaController::InversionistaController(DBConnection* dbConn) : dbConn(dbConn){}
+InversionistaController::InversionistaController() : inversionista(){}
 
 void InversionistaController::crearUsuario(http_request request) {
     web::json::value json = request.extract_json().get();
@@ -22,7 +22,8 @@ void InversionistaController::crearUsuario(http_request request) {
         return;
     }
 
-    Inversionista inversionista(nombre, tipo, dbConn);
+    inversionista.setNombre(nombre);
+    inversionista.setTipo(tipo);
     inversionista.create();
 
     web::json::value respuesta;
@@ -33,10 +34,10 @@ void InversionistaController::crearUsuario(http_request request) {
 
 void InversionistaController::modificarUsuario(http_request request) {
     auto json = request.extract_json().get();
-    std::string nombre = utility::conversions::to_utf8string(json[U("nombre")].as_string());
+    std::string nombreInversionista = utility::conversions::to_utf8string(json[U("nombre")].as_string());
     std::string tipo = utility::conversions::to_utf8string(json[U("tipo")].as_string());
 
-    if (std::any_of(nombre.begin(), nombre.end(), ::isdigit)) {
+    if (std::any_of(nombreInversionista.begin(), nombreInversionista.end(), ::isdigit)) {
         web::json::value respuesta;
         respuesta[L"message"] = web::json::value::string(U("El nombre del inversionista no puede contener números."));
         request.reply(status_codes::BadRequest, respuesta);
@@ -50,12 +51,11 @@ void InversionistaController::modificarUsuario(http_request request) {
         return;
     }
 
-    Inversionista inversionista(dbConn);
     try {
-        inversionista.read(nombre);
+        inversionista.read(nombreInversionista);
         inversionista.setTipo(tipo);
         inversionista.inversionConfig(tipo);
-        inversionista.update(nombre);
+        inversionista.update(nombreInversionista);
 
         web::json::value respuesta;
         respuesta[L"message"] = web::json::value::string(U("Usuario modificado exitosamente"));
@@ -69,7 +69,6 @@ void InversionistaController::modificarUsuario(http_request request) {
 }
 
 void InversionistaController::verUsuarios(http_request request) {
-    Inversionista inversionista(dbConn);
     sql::ResultSet* res = inversionista.verUsuarios();
 
     web::json::value respuesta;
@@ -98,7 +97,14 @@ void InversionistaController::eliminarUsuario(http_request request) {
     web::json::value json = request.extract_json().get();
     std::string nombreInversionista = utility::conversions::to_utf8string(json[U("nombreInversionista")].as_string());
 
-    Inversionista inversionista(nombreInversionista, dbConn);
+    if (!inversionista.existe(nombreInversionista)) {
+        web::json::value respuesta;
+        respuesta[L"message"] = web::json::value::string(U("Error: El usuario no existe."));
+        request.reply(status_codes::BadRequest, respuesta);
+        return;
+    }
+
+    inversionista.read(nombreInversionista);
     try {
         inversionista.del(nombreInversionista);
         web::json::value respuesta;
@@ -116,7 +122,7 @@ void InversionistaController::consultarEstadoInversiones(http_request request) {
     auto json = request.extract_json().get();
     std::string nombreInversionista = utility::conversions::to_utf8string(json[U("nombreInversionista")].as_string());
 
-    Inversionista inversionista(dbConn);
+    inversionista.read(nombreInversionista);
     try {
         std::vector<std::pair<std::string, double>> inversiones = inversionista.consultarEstadoInversiones(nombreInversionista);
 

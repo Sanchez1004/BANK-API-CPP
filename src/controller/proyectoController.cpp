@@ -1,12 +1,13 @@
 #include "proyectoController.h"
 
-ProyectoController::ProyectoController(DBConnection* dbConn) : dbConn(dbConn) {}
+ProyectoController::ProyectoController() : inversionista(), proyecto(){}
 
 void ProyectoController::crearProyecto(http_request request) {
     web::json::value json = request.extract_json().get();
     std::string nombreProyecto = utility::conversions::to_utf8string(json[U("nombreProyecto")].as_string());
     double cantidadARecaudar = json[U("cantidadARecaudar")].as_double();
-    Proyecto proyecto(nombreProyecto, cantidadARecaudar, dbConn);
+    proyecto.setNombre(nombreProyecto);
+    proyecto.setCantidadARecaudar(cantidadARecaudar);
 
     if (proyecto.existe(nombreProyecto)) {
         web::json::value respuesta;
@@ -27,31 +28,44 @@ void ProyectoController::crearProyecto(http_request request) {
     }
 }
 
-
 void ProyectoController::realizarInversion(http_request request) {
     web::json::value json = request.extract_json().get();
     std::string nombreInversionista = utility::conversions::to_utf8string(json[U("nombreInversionista")].as_string());
     std::string nombreProyecto = utility::conversions::to_utf8string(json[U("nombreProyecto")].as_string());
     std::string cantidad = utility::conversions::to_utf8string(json[U("cantidad")].as_string());
 
-    Proyecto proyecto(nombreProyecto, dbConn);
     try {
-        proyecto.realizarInversion(nombreInversionista, nombreProyecto, cantidad);
+        proyecto.read(nombreProyecto);
+        inversionista.read(nombreInversionista);
+        
+        if (proyecto.getEstado() == false) {
+            web::json::value respuesta;
+            respuesta[L"message"] = web::json::value::string(U("Estado del proyecto: CERRADO.\nNo puede realizar más inversiones."));
+            request.reply(status_codes::BadRequest, respuesta);
+            return;
+        }
 
-        if (proyecto.getCantidadRecaudada() > proyecto.getCantidadARecaudar()) {
+        std::istringstream iss(cantidad);
+        double dcantidad;
+        iss >> dcantidad;
+
+        // Verificar si la inversión supera la cantidad máxima que puede hacer un inversionista
+        if (dcantidad > inversionista.getInversionMax()) {
+            web::json::value respuesta;
+            respuesta[L"message"] = web::json::value::string(U("La inversión supera la cantidad máxima que puede hacer el inversionista."));
+            request.reply(status_codes::BadRequest, respuesta);
+            return;
+        }
+
+        // Verificar si la inversión supera la cantidad a recaudar del proyecto
+        if ((proyecto.getCantidadRecaudada() + dcantidad) > proyecto.getCantidadARecaudar()) {
             web::json::value respuesta;
             respuesta[L"message"] = web::json::value::string(U("La inversión supera la cantidad a recaudar del proyecto."));
             request.reply(status_codes::BadRequest, respuesta);
             return;
         }
 
-        Inversionista inversionista(nombreInversionista, dbConn);
-        if (std::stod(cantidad) > inversionista.getInversionMax()) {
-            web::json::value respuesta;
-            respuesta[L"message"] = web::json::value::string(U("La inversión supera la cantidad máxima que puede hacer el inversionista."));
-            request.reply(status_codes::BadRequest, respuesta);
-            return;
-        }
+        proyecto.realizarInversion(nombreInversionista, nombreProyecto, cantidad);
 
         web::json::value respuesta;
         respuesta[L"message"] = web::json::value::string(U("Inversión realizada con éxito."));
@@ -64,34 +78,49 @@ void ProyectoController::realizarInversion(http_request request) {
     }
 }
 
-
 void ProyectoController::consultarProyecto(http_request request) {
     web::json::value json = request.extract_json().get();
     std::string nombreProyecto = utility::conversions::to_utf8string(json[U("nombreProyecto")].as_string());
 
-    Proyecto proyecto(nombreProyecto, dbConn);
+    proyecto.read(nombreProyecto);
     try {
-        proyecto.read(nombreProyecto);
-        web::json::value respuesta;
-        respuesta[U("nombre")] = web::json::value::string(utility::conversions::to_string_t(proyecto.getNombre()));
-        respuesta[U("cantidadARecaudar")] = web::json::value::number(proyecto.getCantidadARecaudar());
-        respuesta[U("cantidadRecaudada")] = web::json::value::number(proyecto.getCantidadRecaudada());
-        respuesta[U("estado")] = web::json::value::boolean(proyecto.getEstado());
+        sql::ResultSet* res = proyecto.consultarProyecto(nombreProyecto);
 
-        request.reply(status_codes::OK, respuesta);
+        if (res->next()) {
+            web::json::value respuesta;
+            respuesta[L"nombre"] = web::json::value::string(utility::conversions::to_string_t(res->getString("nombre")));
+            respuesta[L"cantidadARecaudar"] = web::json::value::number(static_cast<int>(res->getDouble("cantidadARecaudar")));
+            respuesta[L"cantidadRecaudada"] = web::json::value::number(static_cast<int>(res->getDouble("cantidadRecaudada")));
+            if (res->getBoolean("estado") == 1) {
+                respuesta[L"estado"] = web::json::value::string(utility::conversions::to_string_t("Abierto"));
+            }
+            else {
+                respuesta[L"estado"] = web::json::value::string(utility::conversions::to_string_t("cerrado"));
+            }
+
+            request.reply(status_codes::OK, respuesta);
+        }
+        else {
+            // Enviar una respuesta HTTP indicando que el proyecto no se encontró.
+            web::json::value respuesta;
+            respuesta[L"message"] = web::json::value::string(U("El proyecto no se encontró."));
+            request.reply(status_codes::BadRequest, respuesta);
+        }
     }
-    catch (const std::runtime_error& e) {
+    catch (const std::exception& e) {
         web::json::value respuesta;
         respuesta[L"message"] = web::json::value::string(utility::conversions::to_string_t(e.what()));
         request.reply(status_codes::BadRequest, respuesta);
     }
 }
 
+
 void ProyectoController::listarInversionesRealizadas(http_request request) {
     auto json = request.extract_json().get();
     std::string nombreProyecto = utility::conversions::to_utf8string(json[U("nombreProyecto")].as_string());
 
-    Proyecto proyecto(dbConn);
+    proyecto.read(nombreProyecto);
+
     try {
         std::vector<std::tuple<int, std::string, double, std::string>> inversiones = proyecto.listarInversionesRealizadas(nombreProyecto);
 
@@ -122,7 +151,7 @@ void ProyectoController::eliminarProyecto(http_request request) {
     web::json::value json = request.extract_json().get();
     std::string nombreProyecto = utility::conversions::to_utf8string(json[U("nombreProyecto")].as_string());
 
-    Proyecto proyecto(nombreProyecto, dbConn);
+    proyecto.read(nombreProyecto);
     if (!proyecto.existe(nombreProyecto)) {
         web::json::value respuesta;
         respuesta[L"message"] = web::json::value::string(U("El proyecto no existe."));
@@ -143,40 +172,36 @@ void ProyectoController::eliminarProyecto(http_request request) {
     }
 }
 
-
-void ProyectoController::eliminarInversion(http_request request) {
+void ProyectoController::eliminarInversiones(http_request request) {
     web::json::value json = request.extract_json().get();
     std::string nombreInversionista = utility::conversions::to_utf8string(json[U("nombreInversionista")].as_string());
     std::string nombreProyecto = utility::conversions::to_utf8string(json[U("nombreProyecto")].as_string());
 
-    Proyecto proyecto(nombreProyecto, dbConn);
     try {
-        proyecto.eliminarInversion(nombreInversionista, nombreProyecto);
-        web::json::value respuesta;
-        respuesta[L"message"] = web::json::value::string(U("Inversión eliminada con éxito."));
-        request.reply(status_codes::OK, respuesta);
-    }
-    catch (const std::runtime_error& e) {
-        web::json::value respuesta;
-        respuesta[L"message"] = web::json::value::string(utility::conversions::to_string_t(e.what()));
-        request.reply(status_codes::BadRequest, respuesta);
-    }
-}
-
-void ProyectoController::cambiarNombreProyecto(http_request request) {
-    web::json::value json = request.extract_json().get();
-    std::string nombreActual = utility::conversions::to_utf8string(json[U("nombreActual")].as_string());
-    std::string nuevoNombre = utility::conversions::to_utf8string(json[U("nuevoNombre")].as_string());
-
-    Proyecto proyecto(nombreActual, dbConn);
-    try {
-        proyecto.read(nombreActual);
-        proyecto.setNombre(nuevoNombre);
-        proyecto.update(nombreActual);
-
-        web::json::value respuesta;
-        respuesta[L"message"] = web::json::value::string(U("Nombre del proyecto cambiado con éxito."));
-        request.reply(status_codes::OK, respuesta);
+        proyecto.read(nombreProyecto);
+        if (!proyecto.existe(nombreProyecto)) {
+            web::json::value respuesta;
+            respuesta[L"message"] = web::json::value::string(U("Error: El proyecto no existe."));
+            request.reply(status_codes::BadRequest, respuesta);
+            return;
+        }
+        if (!proyecto.tieneInversiones(nombreInversionista, nombreProyecto)) {
+            web::json::value respuesta;
+            respuesta[L"message"] = web::json::value::string(U("Error: No hay inversiones disponibles para eliminar."));
+            request.reply(status_codes::BadRequest, respuesta);
+            return;
+        }
+        try {
+            proyecto.eliminarInversiones(nombreInversionista, nombreProyecto);
+            web::json::value respuesta;
+            respuesta[L"message"] = web::json::value::string(U("Inversión eliminada con éxito."));
+            request.reply(status_codes::OK, respuesta);
+        }
+        catch (const std::runtime_error& e) {
+            web::json::value respuesta;
+            respuesta[L"message"] = web::json::value::string(U("Error: No hay inversiones disponibles para eliminar."));
+            request.reply(status_codes::BadRequest, respuesta);
+        }
     }
     catch (const std::runtime_error& e) {
         web::json::value respuesta;

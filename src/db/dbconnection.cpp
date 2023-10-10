@@ -11,29 +11,35 @@ DBConnection::DBConnection(const std::string& db, const std::string& server, con
     }
 }
 
-DBConnection::~DBConnection() { delete con; }
+DBConnection::~DBConnection() {
+    if (con != nullptr) {
+        delete con;
+        con = nullptr;
+    }
+}
 
 // Getters
 sql::Connection* DBConnection::getConnection() { return con; }
 
-sql::ResultSet* DBConnection::ejecutarQueryR(sql::PreparedStatement* pstmt) {
-    try {
-        sql::ResultSet* res = pstmt->executeQuery();
-        return res;
-    }
-    catch (sql::SQLException& e) {
-        std::cerr << "Error al ejecutar la actualización: " << e.what() << e.getErrorCode() << std::endl;
-        throw; // Lanza la excepción para que pueda ser capturada en el método que llamó a ejecutarQueryR
-    }
-}
+sql::ResultSet* DBConnection::executeQuery(const std::string& consulta) {
+    sql::PreparedStatement* pstmt = nullptr;
+    sql::ResultSet* res = nullptr;
 
-sql::PreparedStatement* DBConnection::prepareStatement(const std::string& consulta) {
     try {
-        sql::PreparedStatement* pstmt = con->prepareStatement(consulta);
-        return pstmt;
+        pstmt = con->prepareStatement(consulta);
+        res = pstmt->executeQuery();
     }
     catch (sql::SQLException& e) {
-        std::cerr << "Error al preparar la consulta: " << e.what() << e.getErrorCode() << std::endl;
+        std::cerr << "Error al preparar o ejecutar la consulta: " << e.what() << " " << e.getErrorCode() << std::endl;
+        if (pstmt != nullptr) {
+            delete pstmt;
+        }
         throw;
     }
+
+    if (pstmt != nullptr) {
+        delete pstmt;
+    }
+
+    return res;
 }

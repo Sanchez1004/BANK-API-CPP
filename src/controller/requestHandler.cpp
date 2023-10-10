@@ -1,11 +1,8 @@
 #include "requestHandler.h"
 
-RequestHandler::RequestHandler(DBConnection* dbConn) : dbConn(dbConn){}
+RequestHandler::RequestHandler() : inversionistaController(), proyectoController() {}
 
 void RequestHandler::handle_post(http_request request) {
-    InversionistaController inversionistaController(dbConn);
-	ProyectoController proyectoController(dbConn);
-
     utility::string_t path = request.request_uri().path();
     std::string pathString = utility::conversions::to_utf8string(path);
 
@@ -24,9 +21,6 @@ void RequestHandler::handle_post(http_request request) {
 }
 
 void RequestHandler::handle_get(http_request request) {
-    InversionistaController inversionistaController(dbConn);
-    ProyectoController proyectoController(dbConn);
-
     utility::string_t path = request.request_uri().path();
     std::string pathString = utility::conversions::to_utf8string(path);
 
@@ -48,9 +42,6 @@ void RequestHandler::handle_get(http_request request) {
 }
     
 void RequestHandler::handle_delete(http_request request) {
-    InversionistaController inversionistaController(dbConn);
-    ProyectoController proyectoController(dbConn);
-
     utility::string_t path = request.request_uri().path();
     std::string pathString = utility::conversions::to_utf8string(path);
 
@@ -60,26 +51,20 @@ void RequestHandler::handle_delete(http_request request) {
     else if (pathString == "/eliminarProyecto") {
         proyectoController.eliminarProyecto(request);
     }
-    else if (pathString == "/eliminarInversion") {
-        proyectoController.eliminarInversion(request);
+    else if (pathString == "/eliminarInversiones") {
+        proyectoController.eliminarInversiones(request);
     }
     else {
         request.reply(status_codes::NotFound);
     }
 }
 
-void RequestHandler::handle_put(http_request request) {
-    InversionistaController inversionistaController(dbConn);
-    ProyectoController proyectoController(dbConn);
-
+void RequestHandler::handle_put(http_request request) { 
     utility::string_t path = request.request_uri().path();
     std::string pathString = utility::conversions::to_utf8string(path);
 
     if (pathString == "/modificarUsuario") {
         inversionistaController.modificarUsuario(request);
-    }
-    else if (pathString == "/cambiarNombreProyecto") {
-        proyectoController.cambiarNombreProyecto(request);
     }
     else {
         request.reply(status_codes::NotFound);
