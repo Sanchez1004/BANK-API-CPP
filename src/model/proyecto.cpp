@@ -1,23 +1,27 @@
 #include "Proyecto.h"
 #include "inversionista.h"
 
-Proyecto::Proyecto() : nombre(""), cantidadARecaudar(0.0), cantidadRecaudada(0.0), estado(true), inversionista() {}
+Proyecto::Proyecto() : nombre(""), cantidadARecaudar(0.0), cantidadRecaudada(0.0), estado(true), inversionista() {} // Constructor, 
 
-// Getters
+// ------------------------------------------------ Getters -----------------------------------------------
+
 std::string Proyecto::getNombre() const { return nombre; }
 double Proyecto::getCantidadARecaudar() const { return cantidadARecaudar; }
 double Proyecto::getCantidadRecaudada() const { return cantidadRecaudada; }
 bool Proyecto::getEstado() const { return estado; }
 
-// Setters
+// ------------------------------------------------ Setters -----------------------------------------------
+
 void Proyecto::setNombre(const std::string& nombre) { this->nombre = nombre; }
 void Proyecto::setCantidadARecaudar(double cantidadARecaudar) { this->cantidadARecaudar = cantidadARecaudar; }
 void Proyecto::setCantidadRecaudada(double cantidadRecaudada) { this->cantidadRecaudada = cantidadRecaudada; }
 void Proyecto::setEstado(bool estado) { this->estado = estado; }
 
 // ------------------------------------------ DATABASE OPERATIONS ------------------------------------------  
+
+// Method used to insert a new project into the ‘PROYECTOS’ table
 void Proyecto::create() {
-    // Preparar y ejecutar la consulta SQL
+    // Prepare and made the mysql query
     std::string consulta = "INSERT INTO proyectos(nombre, cantidadARecaudar, cantidadRecaudada, estado) VALUES ('"
         + getNombre() + "', "
         + std::to_string(getCantidadARecaudar()) + ", "
@@ -26,18 +30,19 @@ void Proyecto::create() {
     dbConn->executeQuery(consulta);
 }
 
+// Function to read project details from the database
 void Proyecto::read(std::string nombreProyecto) {
     try {
-        // Preparar y ejecutar la consulta SQL
-        std::string consulta = "SELECT * FROM proyectos WHERE nombre = '"
-            + nombreProyecto + "'";
+        // Prepare and made the mysql query
+        std::string consulta = "SELECT * FROM proyectos WHERE nombre = '" + nombreProyecto + "'";
         sql::ResultSet* res = dbConn->executeQuery(consulta);
 
-        if (res->next()) {
+        if (res->next()) { // Set the project's name, amount to be raised, and amount raised from the result set
             setNombre(res->getString("nombre"));
             setCantidadARecaudar(res->getDouble("cantidadARecaudar"));
             setCantidadRecaudada(res->getDouble("cantidadRecaudada"));
             
+            // If the amount raised is greater than or equal to the amount to be raised
             if (getCantidadRecaudada() >= getCantidadARecaudar()) {
                 sql::ResultSet* res = dbConn->executeQuery("UPDATE proyectos SET estado = 0 WHERE nombre = '"
                     + getNombre() + "'");
@@ -46,7 +51,7 @@ void Proyecto::read(std::string nombreProyecto) {
                 setEstado(res->getBoolean("estado"));
             }
         }
-        else {
+        else { // Set the project's status from the result set
             throw std::runtime_error("Proyecto no encontrado");
         }
     }
@@ -57,7 +62,7 @@ void Proyecto::read(std::string nombreProyecto) {
 }
 
 void Proyecto::update(std::string nombreAntiguo) {
-    // Preparar y ejecutar la consulta SQL
+    // Prepare and made the mysql query
     std::string consulta = "UPDATE proyectos SET nombre = " + getNombre() 
         + ", cantidadARecaudar = " + std::to_string(getCantidadARecaudar()) 
         + ", cantidadRecaudada = " + std::to_string(getCantidadRecaudada()) 
@@ -67,7 +72,7 @@ void Proyecto::update(std::string nombreAntiguo) {
 }
 
 void Proyecto::del(std::string nombreProyecto) {
-    // Preparar y ejecutar la consulta SQL
+    // Prepare and made the mysql query
     std::string consulta = "SELECT * FROM proyectos WHERE nombre = '"
         + nombreProyecto + "'";
     sql::ResultSet* res = dbConn->executeQuery(consulta);
@@ -76,14 +81,14 @@ void Proyecto::del(std::string nombreProyecto) {
         throw std::runtime_error("El proyecto no existe.");
     }
 
-    // Preparar y ejecutar la consulta SQL
+    // Prepare and made the mysql query
     consulta = "DELETE FROM proyectos WHERE nombre = '"
         + nombreProyecto + "'";
     dbConn->executeQuery(consulta);
 }
 
 int Proyecto::getId(const std::string& nombreProyecto) {
-    // Preparar y ejecutar la consulta SQL
+    // Prepare and made the mysql query
     std::string consulta = "SELECT id FROM proyectos WHERE nombre = '"
         + nombreProyecto + "'";
     sql::ResultSet* res = dbConn->executeQuery(consulta);
@@ -98,7 +103,7 @@ int Proyecto::getId(const std::string& nombreProyecto) {
 
 bool Proyecto::existe(const std::string& nombreProyecto) {
     try {
-        // Preparar y ejecutar la consulta SQL
+        // Prepare and made the mysql query
         std::string consulta = "SELECT COUNT(*) AS count FROM proyectos WHERE nombre = '"
             + nombreProyecto + "'";
         sql::ResultSet* res = dbConn->executeQuery(consulta);
@@ -122,7 +127,7 @@ bool Proyecto::tieneInversiones(const std::string& nombreInversionista, const st
         int idInversionista = inversionista.getId(nombreInversionista);
         int idProyecto = getId(nombreProyecto);
 
-        // Preparar y ejecutar la consulta SQL
+        // Prepare and made the mysql query
         std::string consulta = "SELECT COUNT(*) AS count FROM inversiones WHERE nombreInversionistaID = "
             + std::to_string(idInversionista) + " AND nombreProyectoID = "
             + std::to_string(idProyecto);
@@ -142,8 +147,13 @@ bool Proyecto::tieneInversiones(const std::string& nombreInversionista, const st
     }
 }
 
+
+
 // -------------------------------- Investment operations --------------------------------
 
+
+
+// Method used to make inversions into the table INVERSIONS
 void Proyecto::realizarInversion(std::string nombreInversionista, std::string nombreProyecto, std::string cantidad) {
     try {
         inversionista.setNombre(nombreInversionista);
@@ -152,9 +162,9 @@ void Proyecto::realizarInversion(std::string nombreInversionista, std::string no
 
         std::istringstream iss(cantidad);
         double dcantidad;
-        iss >> dcantidad; // Convertir string a double
+        iss >> dcantidad; // Convert string to double
 
-        // Preparar y ejecutar la consulta SQL
+        // Prepare and made the mysql query
         std::string consulta = "INSERT INTO inversiones (nombreInversionistaID, nombreProyectoID, cantidad) VALUES ("
             + std::to_string(idInversionista) + ", "
             + std::to_string(idProyecto) + ", "
@@ -174,11 +184,12 @@ void Proyecto::realizarInversion(std::string nombreInversionista, std::string no
     }
 }
 
+// Method used to delete the INVERSIONS made by an a INVERSIONIST
 void Proyecto::eliminarInversiones(const std::string& nombreInversionista, const std::string& nombreProyecto) {
     int idInversionista = inversionista.getId(nombreInversionista);
     int idProyecto = getId(nombreProyecto);
 
-    // Preparar y ejecutar la consulta SQL
+    // Prepare and made the mysql query
     std::string consulta = "SELECT cantidad FROM inversiones WHERE nombreInversionistaID = "
         + std::to_string(idInversionista) + " AND nombreProyectoID = "
         + std::to_string(idProyecto);
@@ -191,18 +202,11 @@ void Proyecto::eliminarInversiones(const std::string& nombreInversionista, const
     else {
         throw std::runtime_error("No hay inversiones disponibles para eliminar.");
     }
-
-    // Preparar y ejecutar la consulta SQL
-    consulta = "DELETE FROM inversiones WHERE nombreInversionistaID = "
-        + std::to_string(idInversionista) + " AND nombreProyectoID = "
-        + std::to_string(idProyecto);
-
     dbConn->executeQuery(consulta);
-
     setCantidadRecaudada(getCantidadRecaudada() - cantidad);
 
-    // Eliminar las inversiones del usuario de la tabla 'inversiones'
-    consulta = "DELETE FROM inversionistas WHERE id = "
+    // Delete the inverisions made in the table 'INVERSIONS'
+    consulta = "DELETE FROM inversiones WHERE nombreInversionistaID = "
         + std::to_string(idInversionista);
 
     dbConn->executeQuery(consulta);
@@ -211,7 +215,7 @@ void Proyecto::eliminarInversiones(const std::string& nombreInversionista, const
 
 
 sql::ResultSet* Proyecto::consultarProyecto(std::string nombreProyecto) {
-    // Preparar y ejecutar la consulta SQL
+    // Prepare and made the mysql query
     std::string consulta = "SELECT nombre, cantidadARecaudar, cantidadRecaudada, estado FROM proyectos WHERE nombre = '"
         + nombreProyecto + "'";
     sql::ResultSet* res = dbConn->executeQuery(consulta);
@@ -222,14 +226,14 @@ sql::ResultSet* Proyecto::consultarProyecto(std::string nombreProyecto) {
 std::vector<std::tuple<int, std::string, double, std::string>> Proyecto::listarInversionesRealizadas(const std::string& nombreProyecto) {
     int idProyecto = getId(nombreProyecto);
 
-    // Preparar y ejecutar la consulta SQL
+    // Prepare and made the mysql query
     std::string consulta = "SELECT inversiones.id, inversionistas.nombre, inversiones.cantidad, inversiones.fecha FROM inversiones INNER JOIN inversionistas ON inversiones.nombreInversionistaID = inversionistas.id WHERE nombreProyectoID = "
         + std::to_string(idProyecto);
     sql::ResultSet* res = dbConn->executeQuery(consulta);
 
     std::vector<std::tuple<int, std::string, double, std::string>> inversiones;
     while (res->next()) {
-        int id = res->getInt("id");
+        int id = res->getInt("id"); 
         std::string nombre = res->getString("nombre");
         double cantidad = res->getDouble("cantidad");
         std::string fecha = res->getString("fecha");

@@ -1,1 +1,12 @@
-﻿  BankApi.vcxproj -> D:\Code\Daniel\C++\PROJECTS\BankApi\x64\Release\BankApi.exe
+﻿  BankApi.cpp
+  inversionistaController.cpp
+  proyectoController.cpp
+D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\proyectoController.cpp(200,42): warning C4101: 'e': unreferenced local variable
+  requestHandler.cpp
+  proyecto.cpp
+  Generating code
+  7 of 3946 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    111 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  BankApi.vcxproj -> D:\Code\Daniel\C++\PROJECTS\BankApi\x64\Release\BankApi.exe

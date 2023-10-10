@@ -1,11 +1,15 @@
 #include "requestHandler.h"
 
+// Constructor for the RequestHandler class
 RequestHandler::RequestHandler() : inversionistaController(), proyectoController() {}
 
+// Function to handle POST requests
 void RequestHandler::handle_post(http_request request) {
+    // Get the path of the request
     utility::string_t path = request.request_uri().path();
     std::string pathString = utility::conversions::to_utf8string(path);
 
+    // Depending on the path, call the appropriate function from the controller classes
     if (pathString == "/crearUsuario") {
         inversionistaController.crearUsuario(request);
     }
@@ -16,14 +20,18 @@ void RequestHandler::handle_post(http_request request) {
         proyectoController.realizarInversion(request);
     }
     else {
+        // If the path does not match any of the above, return a 404 Not Found status code
         request.reply(status_codes::NotFound);
-    }   
+    }
 }
 
+// Function to handle GET requests
 void RequestHandler::handle_get(http_request request) {
+    // Get the path of the request
     utility::string_t path = request.request_uri().path();
     std::string pathString = utility::conversions::to_utf8string(path);
 
+    // Depending on the path, call the appropriate function from the controller classes
     if (pathString == "/verUsuarios") {
         inversionistaController.verUsuarios(request);
     }
@@ -37,14 +45,18 @@ void RequestHandler::handle_get(http_request request) {
         inversionistaController.consultarEstadoInversiones(request);
     }
     else {
+        // If the path does not match any of the above, return a 404 Not Found status code
         request.reply(status_codes::NotFound);
     }
 }
-    
+
+// Function to handle DELETE requests
 void RequestHandler::handle_delete(http_request request) {
+    // Get the path of the request
     utility::string_t path = request.request_uri().path();
     std::string pathString = utility::conversions::to_utf8string(path);
 
+    // Depending on the path, call the appropriate function from the controller classes
     if (pathString == "/eliminarUsuarios") {
         inversionistaController.eliminarUsuario(request);
     }
@@ -55,18 +67,23 @@ void RequestHandler::handle_delete(http_request request) {
         proyectoController.eliminarInversiones(request);
     }
     else {
+        // If the path does not match any of the above, return a 404 Not Found status code
         request.reply(status_codes::NotFound);
     }
 }
 
-void RequestHandler::handle_put(http_request request) { 
+// Function to handle PUT requests
+void RequestHandler::handle_put(http_request request) {
+    // Get the path of the request
     utility::string_t path = request.request_uri().path();
     std::string pathString = utility::conversions::to_utf8string(path);
 
+    // Depending on the path, call the appropriate function from the controller classes
     if (pathString == "/modificarUsuario") {
         inversionistaController.modificarUsuario(request);
     }
     else {
+        // If the path does not match any of the above, return a 404 Not Found status code
         request.reply(status_codes::NotFound);
     }
 }
