@@ -1,0 +1,27 @@
+# Archivos de compilación de C++
+*.o
+*.obj
+*.exe
+*.exp
+*.ilk
+
+# Archivos de Visual Studio
+.vs/
+*.suo
+*.user
+*.sln.docstates
+
+# Carpetas de compilación de Visual Studio
+Debug/
+Release/
+x64/
+x86/
+
+# Archivos de copia de seguridad
+*~
+*.bak
+
+# Otros archivos y carpetas ignorados
+.DS_Store
+Thumbs.db
+
