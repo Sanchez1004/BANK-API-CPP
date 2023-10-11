@@ -1,9 +1,10 @@
 #include "Proyecto.h"
 #include "inversionista.h"
 
+// --------------------------------------------- Constructor ------------------------------------------------
 Proyecto::Proyecto() : nombre(""), cantidadARecaudar(0.0), cantidadRecaudada(0.0), estado(true), inversionista() {
     dbConn = new DBConnection("bankdb", "localhost", "root", "1234");
-} // Constructor, 
+}  
 
 // ------------------------------------------------ Getters -----------------------------------------------
 

@@ -1,6 +1,7 @@
 #include "inversionista.h"
 #include "proyecto.h"
 
+// ---------------------------------------------- Constructor ------------------------------------------------
 Inversionista::Inversionista() : nombre(""), tipo(""), ingresoMensual(0.0), inversionMax(0.0){
     dbConn = new DBConnection("bankdb", "localhost", "root", "1234");
 }
