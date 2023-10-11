@@ -1,0 +1,155 @@
+BANKAPI
+EJEMPLO ENDPOINTS UTILIZABLES
+
+﻿----------------------------------------------------------------------------
+
+POST
+crearUsuario
+http://localhost:8080/crearUsuario
+﻿
+
+Body
+raw (json)
+json
+{
+    "nombre": "danieluno",
+    "tipo": "basic"
+}
+
+----------------------------------------------------------------------------
+
+POST
+crearProyecto
+http://localhost:8080/crearProyecto
+﻿
+
+Body
+raw (json)
+json
+{
+    "nombreProyecto" : "punos3",
+    "cantidadARecaudar" : 3000000
+}
+
+----------------------------------------------------------------------------
+
+POST
+realizarInversion
+http://localhost:8080/realizarInversion
+﻿
+
+Body
+raw (json)
+json
+{
+    "nombreInversionista": "federico",
+    "nombreProyecto": "punos3",
+    "cantidad": "80000"
+}
+
+----------------------------------------------------------------------------
+
+GET
+verUsuarios
+http://localhost:8080/verUsuarios
+﻿
+----------------------------------------------------------------------------
+
+GET
+consultarProyecto
+http://localhost:8080/consultarProyecto
+﻿
+
+Body
+raw (json)
+json
+{
+    "nombreProyecto" : "punos3"
+}
+
+----------------------------------------------------------------------------
+
+GET
+listarInversiones
+http://localhost:8080/listarInversiones
+﻿
+
+Body
+raw (json)
+json
+{
+    "nombreProyecto" : "punos"
+}
+
+----------------------------------------------------------------------------
+
+GET
+consultarEstadoInversiones
+http://localhost:8080/consultarEstadoInversiones
+﻿
+
+Body
+raw (json)
+json
+{
+    "nombreInversionista" : "federico"
+}
+
+----------------------------------------------------------------------------
+
+PUT
+modificarUsuario
+http://localhost:8080/modificarUsuario
+﻿
+
+Body
+raw (json)
+json
+{
+    "nombre": "daniel",
+    "tipo": "basic"
+}
+
+
+----------------------------------------------------------------------------
+
+DELETE
+eliminarUsuarios
+http://localhost:8080/eliminarUsuarios
+﻿
+
+Body
+raw (json)
+json
+{
+    "nombreInversionista" : "danieluno"
+}
+
+----------------------------------------------------------------------------
+
+DELETE
+eliminarInversiones
+http://localhost:8080/eliminarInversiones
+﻿
+
+Body
+raw (json)
+json
+{
+    "nombreInversionista" : "federico",
+    "nombreProyecto" : "punos3"
+}
+
+----------------------------------------------------------------------------
+
+DELETE
+eliminarProyecto
+http://localhost:8080/eliminarProyecto
+﻿
+
+Body
+raw (json)
+json
+{
+    "nombreProyecto" : "punos3"
+}

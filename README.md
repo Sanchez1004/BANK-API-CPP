@@ -1,6 +1,6 @@
 # BANK-API-CPP
 
-Este repositorio contiene una API de banco implementada en C++. 
+Este repositorio contiene una API de banco implementada en C++.
 
 ## Requisitos
 
@@ -19,7 +19,9 @@ Este repositorio contiene una API de banco implementada en C++.
 
 ## Uso
 
-Una vez que el servidor esté en funcionamiento, puedes interactuar con la API a través de varios endpoints para realizar operaciones bancarias.
+- Una vez que el servidor esté en funcionamiento, puedes interactuar con la API a través de varios endpoints para realizar operaciones bancarias.
+- Dentro del repositorio encontras un archivo llamado "tables.sql" el cual tiene la estructura a manejar de las tablas, también encontraras una carpeta "test" en ella encontras un ejemplo de las
+  peticiones que puedes hacer con esta API.
 
 ## Contribución
 
@@ -27,7 +29,7 @@ Las contribuciones son bienvenidas. Si tienes alguna idea para mejorar la API o 
 
 ## Licencia
 
-[MIT](https://choosealicense.com/licenses/mit/)
+Este proyecto está licenciado bajo los términos de la licencia MIT. Para más detalles, por favor vea el archivo LICENSE en la raíz del repositorio.
 
 ## Contacto
 
