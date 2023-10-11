@@ -1,0 +1,45 @@
+cmake_minimum_required(VERSION 3.10)
+project(BankApi)
+
+# Configuración del proyecto
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# Rutas de búsqueda para las dependencias
+set(MYSQL_SERVER_DIR "C:/Program Files/MySQL/MySQl Server 8.0") # Cambia la dirección a la que tengas instalada en tu sistema
+set(MYSQL_CONNECTOR_CPP_DIR "C:/Program Files/MySQL/Connector C++ 8.0")	# Cambia la dirección a la que tengas instalada en tu sistema
+set(RESTCPP_DIR "D:/repos/vcpkg/installed/x64-windows/include/cpprest") # Cambia la dirección a la que tengas instalada en tu sistema
+
+# Archivos fuente de tu aplicación
+set(SOURCES
+    BankApi.cpp
+    src/model/inversionista.cpp
+    src/controller/inversionistaController.cpp
+    src/model/proyecto.cpp
+    src/controller/proyectoController.cpp
+)
+
+# Agrega los archivos de encabezado de tu aplicación
+set(HEADERS
+    src/model/inversionista.h
+    src/controller/inversionistaController.h
+    src/model/proyecto.h
+    src/controller/proyectoController.h
+)
+
+# Crea el ejecutable
+add_executable(BankApi ${SOURCES} ${HEADERS})
+
+# Dependencias y enlaces necesarios
+target_include_directories(BankApi PUBLIC include)
+target_link_libraries(BankApi PUBLIC mysqlcppconn8)
+
+# Rutas de búsqueda para las librerías
+link_directories(${MYSQL_CONNECTOR_CPP_DIR}/lib64/vs14) # Cambia la dirección a la que tengas instalada en tu sistema
+link_directories(${MYSQL_CONNECTOR_CPP_DIR}/include) # Cambia la dirección a la que tengas instalada en tu sistema
+link_directories(${MYSQL_CONNECTOR_CPP_DIR}/lib) # Cambia la dirección a la que tengas instalada en tu sistema
+link_directories(${MYSQL_CONNECTOR_CPP_DIR}/include) # Cambia la dirección a la que tengas instalada en tu sistema 
+link_directories(${RESTCPP_DIR}/cpprest) # Cambia la dirección a la que tengas instalada en tu sistema
+
+
+

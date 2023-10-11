@@ -7,11 +7,17 @@
 
 # Archivos de Visual Studio
 .vs/
+*.sln
 *.suo
 *.user
 *.sln.docstates
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
 
 # Carpetas de compilación de Visual Studio
+build/
 Debug/
 Release/
 x64/

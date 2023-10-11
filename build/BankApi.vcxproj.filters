@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Code\Daniel\C++\PROJECTS\BankApi\BankApi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\Daniel\C++\PROJECTS\BankApi\src\model\inversionista.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\Daniel\C++\PROJECTS\BankApi\src\model\proyecto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\proyectoController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Code\Daniel\C++\PROJECTS\BankApi\src\model\inversionista.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\inversionistaController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Code\Daniel\C++\PROJECTS\BankApi\src\model\proyecto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Code\Daniel\C++\PROJECTS\BankApi\src\controller\proyectoController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Code\Daniel\C++\PROJECTS\BankApi\CmakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{1BA7CCCD-92BC-3171-ACBB-7D1A1BF66152}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{9D23C06E-D847-3703-A452-1362A7FD59CE}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -14,8 +14,9 @@ Este repositorio contiene una API de banco implementada en C++.
 
 1. Asegúrate de tener instalado C++, Visual Studio, cpprestsdk, Connector C++ 8.0 y MySQL Server 8.0 en tu sistema.
 2. Clona este repositorio en tu máquina local.
-3. Abre el proyecto en Visual Studio.
-4. Compila y ejecuta el proyecto.
+3. Buildea el proyecto con un terminal usando 'cmake -B build -S .'
+4. Abre el proyecto en Visual Studio.
+5. Compila y ejecuta el proyecto.
 
 ## Uso
 
