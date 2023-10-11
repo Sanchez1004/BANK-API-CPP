@@ -9,12 +9,15 @@ using namespace web::http::experimental::listener;
 
 class InversionistaController {
 public:
-    InversionistaController();
+    InversionistaController(); // Constructor
+
+    // Methods to handle different types of HTTP requests related to the user
     void crearUsuario(http_request request);
     void modificarUsuario(http_request request);
     void verUsuarios(http_request request);
     void eliminarUsuario(http_request request);
     void consultarEstadoInversiones(http_request request);
+
 private:
-    Inversionista inversionista;
-}; 
+    Inversionista inversionista; // An instance of the Inversionista class
+};

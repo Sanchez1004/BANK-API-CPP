@@ -15,15 +15,20 @@ using namespace web::http::experimental::listener;
 
 class DBConnection {
 private:
-    sql::Driver* driver;
-    sql::Connection* con;
+    sql::Driver* driver; // Pointer to the SQL driver
+    sql::Connection* con; // Pointer to the SQL connection
 
 public:
+    // Constructor: Initializes a new instance of the DBConnection class
     DBConnection(const std::string& db, const std::string& server, const std::string& user, const std::string& password);
+
+    // Destructor: Cleans up any resources being used.
     ~DBConnection();
 
+    // Method: Returns the SQL connection
     sql::Connection* getConnection();
     
+    // Method: Executes a query and returns the result set
     sql::ResultSet* executeQuery(const std::string& consulta);
 };
 #endif // DBCONNECTION_H

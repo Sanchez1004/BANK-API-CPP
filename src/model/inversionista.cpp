@@ -1,7 +1,9 @@
 #include "inversionista.h"
 #include "proyecto.h"
 
-Inversionista::Inversionista() : nombre(""), tipo(""), ingresoMensual(0.0), inversionMax(0.0){}
+Inversionista::Inversionista() : nombre(""), tipo(""), ingresoMensual(0.0), inversionMax(0.0){
+    dbConn = new DBConnection("bankdb", "localhost", "root", "1234");
+}
 
 // ------------------------------------------------ Getters -----------------------------------------------
 

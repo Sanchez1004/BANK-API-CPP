@@ -1,0 +1,38 @@
+cmake_minimum_required(VERSION 3.10)
+project(BANK_API_CPP)
+
+set(CMAKE_CXX_STANDARD 14)
+
+# Encuentra los paquetes necesarios
+find_package(MySQL REQUIRED)
+find_package(ConnectorC++ REQUIRED)
+find_package(RESTSDK REQUIRED)
+
+# Asegúrate de que los paquetes han sido encontrados
+if(NOT MySQL_FOUND)
+    message(FATAL_ERROR "No se pudo encontrar MySQL")
+endif()
+
+if(NOT ConnectorC++_FOUND)
+    message(FATAL_ERROR "No se pudo encontrar ConnectorC++")
+endif()
+
+if(NOT RESTSDK_FOUND)
+    message(FATAL_ERROR "No se pudo encontrar REST SDK")
+endif()
+
+# Incluye los directorios de los paquetes
+include_directories(${MySQL_INCLUDE_DIRS})
+include_directories(${ConnectorC++_INCLUDE_DIRS})
+include_directories(${RESTSDK_INCLUDE_DIRS})
+
+# directorio del código fuente
+add_subdirectory(src)
+
+# ejecutable del proyecto
+add_executable(BANK_API_CPP main.cpp)
+
+# Enlaza las bibliotecas al ejecutable del proyecto
+target_link_libraries(BANK_API_CPP ${MySQL_LIBRARIES} ${ConnectorC++_LIBRARIES} ${RESTSDK_LIBRARIES})
+
+
