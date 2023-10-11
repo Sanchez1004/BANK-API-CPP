@@ -1,3 +1,0 @@
-D:/Code/Daniel/C++/PROJECTS/BankApi/build/CMakeFiles/BankApi.dir
-D:/Code/Daniel/C++/PROJECTS/BankApi/build/CMakeFiles/ALL_BUILD.dir
-D:/Code/Daniel/C++/PROJECTS/BankApi/build/CMakeFiles/ZERO_CHECK.dir
